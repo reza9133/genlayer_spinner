@@ -152,12 +152,10 @@
 
 /* ---------- accessibility: keep motion, calm it down ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .gl-spinner--orbit .gl-orbit-outer,
-  .gl-spinner--orbit .gl-orbit-inner  { animation-duration: 2.8s; }
-  .gl-spinner--orbit .gl-orbit-core,
-  .gl-spinner--neural .gl-neural-node { animation: none; opacity: .85; }
-  .gl-spinner--neural .gl-neural-path { animation: gl-dash 3s linear infinite; }
-  .gl-spinner--portal .gl-portal-ring { animation-duration: 1.6s; }
+  .gl-orbit-outer, .gl-orbit-inner  { animation-duration: 2.8s; }
+  .gl-orbit-core, .gl-neural-node { animation: none; opacity: .85; }
+  .gl-neural-path { animation: gl-dash 3s linear infinite; }
+  .gl-portal-ring { animation-duration: 1.6s; }
 }
 
 /* ---------- light-theme track adjustment ----------
