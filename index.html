@@ -207,8 +207,8 @@ input[type="range"]::-moz-range-thumb {
 }
 .reset-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
-/* ---------- stage ---------- */
-.stage-panel { padding: 34px 30px; position: relative; overflow: hidden; min-height: 340px; }
+/* ---------- stage (Fixed dimensions to prevent any layout jump) ---------- */
+.stage-panel { padding: 34px 30px; position: relative; overflow: hidden; min-height: 320px; }
 .stage-halo {
   position: absolute; inset: -40%; z-index: 0; pointer-events: none;
   background: conic-gradient(from 0deg, color-mix(in srgb, var(--gl-a) 45%, transparent), transparent 30%, color-mix(in srgb, var(--gl-b) 40%, transparent), transparent 70%);
@@ -216,14 +216,14 @@ input[type="range"]::-moz-range-thumb {
   animation: gl-ccw calc(var(--gl-duration) * 6) linear infinite;
 }
 html[data-theme="high-contrast"] .stage-halo { display: none; }
-.stage-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
-.stage-spinner { display: grid; place-items: center; min-height: 128px; }
+.stage-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.stage-spinner { display: grid; place-items: center; height: 110px; }
 .stage-title { font-size: 22px; }
-.stage-desc { max-width: 520px; font-size: 14.5px; line-height: 1.6; color: var(--text-muted); }
-.stage-specs { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+.stage-desc { max-width: 520px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+.stage-specs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .spec-chip {
   font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
-  border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px;
+  border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
   background: var(--surface);
 }
 
@@ -615,9 +615,9 @@ footer.pagefoot a { color: var(--text-muted); }
             </filter>
           </defs>
 
-          <!-- Fixed Centered Logo Pulse -->
+          <!-- Fixed Centered Logo Pulse (Strictly Inside 100x100 viewBox) -->
           <g style="transform-box: fill-box; transform-origin: center; animation: gl-npulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate;">
-            <g transform="translate(28, 28) scale(0.44)">
+            <g transform="translate(32, 32) scale(0.36)">
               <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a)" opacity="0.85" />
               <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter="url(#gl-nglow-${u})" />
             </g>
