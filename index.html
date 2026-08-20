@@ -21,8 +21,9 @@
   --track: rgba(255,255,255,.09);
   --shadow: 0 30px 80px -20px rgba(0,0,0,.6);
 
-  --gl-a: #71461E;
-  --gl-b: #3C5872;
+  /* Amber & Ocean Blue Defaults */
+  --gl-a: #F59E0B;
+  --gl-b: #0EA5E9;
   --gl-duration: 1.6s;
 
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
@@ -352,7 +353,7 @@ footer.pagefoot a { color: var(--text-muted); }
   animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
              gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
 }
-.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite; }
+.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) linear infinite; }
 .gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
 .gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
 .gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
@@ -425,14 +426,14 @@ footer.pagefoot a { color: var(--text-muted); }
         <label class="section-label">Accent Color</label>
         <div class="field" style="gap:12px;">
           <div class="color-row">
-            <input type="color" class="swatch-input" id="colorA" value="#71461E" />
+            <input type="color" class="swatch-input" id="colorA" value="#F59E0B" />
             <span class="color-label">Gradient start</span>
-            <span class="color-hex mono" id="colorAHex">#71461E</span>
+            <span class="color-hex mono" id="colorAHex">#F59E0B</span>
           </div>
           <div class="color-row">
-            <input type="color" class="swatch-input" id="colorB" value="#3C5872" />
+            <input type="color" class="swatch-input" id="colorB" value="#0EA5E9" />
             <span class="color-label">Gradient end</span>
-            <span class="color-hex mono" id="colorBHex">#3C5872</span>
+            <span class="color-hex mono" id="colorBHex">#0EA5E9</span>
           </div>
           <div class="preset-row" id="presetRow"></div>
         </div>
@@ -525,8 +526,8 @@ footer.pagefoot a { color: var(--text-muted); }
       </section>
 
       <footer class="pagefoot">
-        <span>GenLayer Spinner Bounty · Submission Ready</span>
-        <span>Interactive Playground</span>
+        <span>GenLayer Spinner Bounty · genlayer-spinner-bounty/index.html</span>
+        <span>Live demo: <a href="#">[deployment URL placeholder — see README]</a></span>
       </footer>
     </main>
   </div>
@@ -674,14 +675,14 @@ footer.pagefoot a { color: var(--text-muted); }
   };
 
   const SIZES = [16, 24, 32, 48, 64, 96];
-  const PRESETS = ["#71461E", "#3C5872", "#7A40FF", "#00F5D4", "#F8FAFC"];
+  const PRESETS = ["#F59E0B", "#0EA5E9", "#7A40FF", "#00F5D4", "#F8FAFC"];
 
   const state = {
     theme: "dark",
     concept: "orbit",
     duration: 1.6,
-    colorA: "#71461E",
-    colorB: "#3C5872",
+    colorA: "#F59E0B",
+    colorB: "#0EA5E9",
     codeTab: "svg",
   };
 
@@ -858,7 +859,6 @@ footer.pagefoot a { color: var(--text-muted); }
     renderCode();
   });
 
-  // Speed Presets Click Handler
   document.querySelectorAll(".speed-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.duration = parseFloat(btn.dataset.speed);
@@ -883,8 +883,8 @@ footer.pagefoot a { color: var(--text-muted); }
   });
 
   $("#resetBtn").addEventListener("click", () => {
-    state.colorA = "#71461E";
-    state.colorB = "#3C5872";
+    state.colorA = "#F59E0B";
+    state.colorB = "#0EA5E9";
     state.duration = CONCEPTS[state.concept].defaultSpeed;
     $("#colorA").value = state.colorA;
     $("#colorB").value = state.colorB;
