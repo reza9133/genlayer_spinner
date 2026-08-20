@@ -116,29 +116,22 @@ in the file header, e.g.:
     <circle class="gl-portal-ring" cx="12" cy="12" r="9"/>
   </svg>
 </span>
-```
-
-### React / Tailwind
-```tsx
+React / Tailwind
+TypeScript
 import { GenLayerSpinner } from "./react/GenLayerSpinner";
 
-<GenLayerSpinner variant="orbit" size="lg" />
-<GenLayerSpinner variant="neural" size="md" />
-<GenLayerSpinner variant="portal" size="sm" />
+<GenLayerSpinner size="lg" variant="orbit"/>
+<GenLayerSpinner size="md" variant="neural"/>
+<GenLayerSpinner size="sm" variant="portal"/>
 
 // status-colored example, e.g. a pending vs. failed transaction
-<GenLayerSpinner variant="portal" size={16} colorFrom="#F59E0B" colorTo="#FBBF24" speed={1} />
-```
-Add the shared `@keyframes` block (documented at the bottom of
-`GenLayerSpinner.tsx`) to your global stylesheet once — the component
-relies on it rather than injecting `<style>` tags per render, so it stays
+<GenLayerSpinner colorFrom="#F59E0B" colorTo="#FBBF24" size="{16}" speed="{1}" variant="portal"/>
+Add the shared @keyframes block (documented at the bottom of
+GenLayerSpinner.tsx) to your global stylesheet once — the component
+relies on it rather than injecting <style> tags per render, so it stays
 cheap even with many instances on screen.
 
----
-
-## 5. Project structure
-
-```
+5. Project structure
 genlayer-spinner-bounty/
 ├── index.html                    # interactive playground — theme switcher,
 │                                  # size matrix, context sims, live speed/color
@@ -151,15 +144,12 @@ genlayer-spinner-bounty/
 ├── css/
 │   └── genlayer-spinners.css     # framework-free, all 3 concepts + a11y
 └── react/
-    └── GenLayerSpinner.tsx       # <GenLayerSpinner variant size speed .../>
-```
-
-## 6. Browser support
-
-Built entirely on standard SVG + CSS: `transform`, `opacity`,
-`stroke-dasharray/-dashoffset`, and CSS custom properties are supported
-everywhere GenLayer Portal targets. The Neural Loop's `d`-path morph uses
-the CSS `d` property (Chrome/Edge 117+, Safari 16.4+, Firefox 129+); on
+    └── GenLayerSpinner.tsx       # <GenLayerSpinner ... size speed variant/>
+6. Browser support
+Built entirely on standard SVG + CSS: transform, opacity,
+stroke-dasharray/-dashoffset, and CSS custom properties are supported
+everywhere GenLayer Portal targets. The Neural Loop's d-path morph uses
+the CSS d property (Chrome/Edge 117+, Safari 16.4+, Firefox 129+); on
 older engines it degrades gracefully to the static outline shape with the
 flowing dash and node-pulse animations still fully working — no error, no
 layout shift, just one fewer flourish.
