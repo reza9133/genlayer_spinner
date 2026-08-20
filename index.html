@@ -207,7 +207,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .reset-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
-/* ---------- stage ---------- */
+/* ---------- stage (Fixed dimensions to prevent any layout jump) ---------- */
 .stage-panel { padding: 34px 30px; position: relative; overflow: hidden; min-height: 320px; }
 .stage-halo {
   position: absolute; inset: -40%; z-index: 0; pointer-events: none;
@@ -349,36 +349,24 @@ footer.pagefoot a { color: var(--text-muted); }
 .gl-spinner { display: inline-flex; line-height: 0; }
 .gl-spinner svg { display: block; overflow: visible; }
 .gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core,
-.gl-neural-path, .gl-neural-wrapper, .gl-neural-node, .gl-portal-ring {
+.gl-neural-arc, .gl-neural-nodes, .gl-portal-ring {
   transform-box: fill-box; transform-origin: center;
 }
 .gl-orbit-outer { animation: gl-cw calc(var(--gl-duration) * 1.5) linear infinite; }
 .gl-orbit-inner { animation: gl-ccw var(--gl-duration) linear infinite; }
 .gl-orbit-core  { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
 
-.gl-neural-wrapper { animation: gl-scale-pulse calc(var(--gl-duration) * 2.2) ease-in-out infinite; }
-.gl-neural-path { animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite; }
-.gl-neural-node { animation: gl-node-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate; }
-.gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
-.gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
+.gl-neural-arc { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
+.gl-neural-nodes { animation: gl-ccw var(--gl-duration) linear infinite; }
 .gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
 
 @keyframes gl-cw  { to { transform: rotate(360deg); } }
 @keyframes gl-ccw { to { transform: rotate(-360deg); } }
-@keyframes gl-dash { to { stroke-dashoffset: -198; } }
-@keyframes gl-scale-pulse {
-  0%, 100% { transform: scale(0.96); }
-  50%      { transform: scale(1.04); }
-}
-@keyframes gl-node-pulse {
-  0%   { transform: scale(0.9); opacity: 0.7; }
-  100% { transform: scale(1.05); opacity: 1; }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .gl-orbit-outer, .gl-orbit-inner { animation-duration: 2.8s !important; }
-  .gl-orbit-core, .gl-neural-node { animation: none !important; opacity: .85; }
-  .gl-neural-path { animation: gl-dash 3s linear infinite !important; }
+  .gl-orbit-core, .gl-neural-nodes { animation: none !important; opacity: .85; }
+  .gl-neural-arc { animation: gl-cw 3s linear infinite !important; }
   .gl-portal-ring { animation-duration: 1.6s !important; }
 }
 </style>
@@ -560,8 +548,8 @@ footer.pagefoot a { color: var(--text-muted); }
       short: "Consensus Orbit",
       sub: "Dual-ring · counter-rotation",
       eyebrow: "CONCEPT A",
-      desc: "Two outer rings counter-rotate while the central GenLayer logo actively spins — a literal read of Optimistic Democracy: independent motion, one shared dynamic core.",
-      specs: ["Spinning Logo", "GPU: transform + opacity", "High Contrast", "Default 1.6s"],
+      desc: "Two outer rings counter-rotate while the central GenLayer logo actively spins — a literal read of Optimistic Democracy.",
+      specs: ["Spinning Logo", "GPU Rotation", "High Contrast", "Default 1.6s"],
       defaultSpeed: 1.6,
       svg(size) {
         const u = nextUid();
@@ -602,12 +590,12 @@ footer.pagefoot a { color: var(--text-muted); }
       },
     },
     neural: {
-      name: "Neural Loop",
-      short: "Neural Loop",
-      sub: "GPU scaling · flow",
+      name: "Neural Orbit",
+      short: "Neural Orbit",
+      sub: "Smooth GPU rotation",
       eyebrow: "CONCEPT B",
-      desc: "Bold flowing paths with highly visible nodes revolving around a heavily pulsing GenLayer anchor. Fully optimized for 60fps GPU rendering.",
-      specs: ["GPU Scaled Paths", "Heavy Pulse Logo", "Glowing Nodes", "Default 1.6s"],
+      desc: "Glowing neural nodes orbiting a steadily breathing GenLayer core. Rebuilt entirely on hardware-accelerated rotation for a flawless, buttery-smooth 60fps experience without any lag.",
+      specs: ["Pure GPU Rotation", "Zero Lag", "Smooth 60fps", "Default 1.6s"],
       defaultSpeed: 1.6,
       svg(size) {
         const u = nextUid();
@@ -615,44 +603,43 @@ footer.pagefoot a { color: var(--text-muted); }
         <svg width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="Loading">
           <defs>
             <linearGradient id="gl-ng-${u}" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="var(--gl-a)"/><stop offset="50%" stop-color="var(--gl-b)"/><stop offset="100%" stop-color="var(--gl-a)"/>
+              <stop offset="0%" stop-color="var(--gl-a)"/><stop offset="100%" stop-color="var(--gl-b)"/>
             </linearGradient>
             <filter id="gl-nglow-${u}" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              <feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
 
-          <!-- Fixed Centered Logo Pulse -->
-          <g style="transform-box: fill-box; transform-origin: center; animation: gl-logopulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate;">
+          <!-- Core Breathing (Opacity only, no scale jump) -->
+          <g style="animation: gl-opulse-${u} calc(var(--gl-duration) * 1.5) ease-in-out infinite alternate;">
             <g transform="translate(32, 32) scale(0.36)">
-              <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a)" opacity="0.85" />
+              <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a)" opacity="0.8" />
               <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter="url(#gl-nglow-${u})" />
             </g>
           </g>
 
-          <!-- GPU-Scaled Wrapper (Replaces D-Path Morphing to fix layout shift & Jitter) -->
-          <g style="transform-box: fill-box; transform-origin: center; animation: gl-nscale-${u} calc(var(--gl-duration) * 2.2) ease-in-out infinite;">
-            <path d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z" fill="none" stroke="var(--track)" stroke-width="4" opacity="0.5"/>
-            <path class="gl-neural-path" d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z" fill="none" stroke="url(#gl-ng-${u})" stroke-width="5" stroke-linecap="round" stroke-dasharray="60 120" style="transform-box: fill-box; transform-origin: center; animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite;"/>
-            
-            <circle cx="50" cy="18" r="5" fill="var(--gl-b)" filter="url(#gl-nglow-${u})" style="transform-box: fill-box; transform-origin: center; animation: gl-nodepulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate;"/>
-            <circle cx="77.71" cy="66" r="5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})" style="transform-box: fill-box; transform-origin: center; animation: gl-nodepulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate; animation-delay: calc(var(--gl-duration) * -0.37);"/>
-            <circle cx="22.29" cy="66" r="5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})" style="transform-box: fill-box; transform-origin: center; animation: gl-nodepulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate; animation-delay: calc(var(--gl-duration) * -0.74);"/>
+          <!-- Static Background Track -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.15" />
+
+          <!-- Smooth Rotating Flow Path -->
+          <g class="gl-neural-arc" style="transform-box: fill-box; transform-origin: center; animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite;">
+            <circle cx="50" cy="50" r="38" fill="none" stroke="url(#gl-ng-${u})" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="100 140" opacity="0.9" />
+          </g>
+
+          <!-- Orbiting Nodes (100% GPU Transform) -->
+          <g class="gl-neural-nodes" style="transform-box: fill-box; transform-origin: center; animation: gl-ccw var(--gl-duration) linear infinite;">
+            <circle cx="50" cy="12" r="5.5" fill="var(--gl-b)" filter="url(#gl-nglow-${u})"/>
+            <circle cx="82.9" cy="69" r="5.5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})"/>
+            <circle cx="17.1" cy="69" r="5.5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})"/>
           </g>
 
           <style>
-            @keyframes gl-logopulse-${u} {
-              0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px var(--gl-a)); }
-              100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b)); }
+            @keyframes gl-opulse-${u} {
+              0% { opacity: 0.35; filter: drop-shadow(0 0 2px var(--gl-a)); }
+              100% { opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b)); }
             }
-            @keyframes gl-nscale-${u} {
-              0%, 100% { transform: scale(0.96); }
-              50%      { transform: scale(1.04); }
-            }
-            @keyframes gl-nodepulse-${u} {
-              0%   { transform: scale(0.9); opacity: 0.7; }
-              100% { transform: scale(1.05); opacity: 1; }
-            }
+            @keyframes gl-cw { to { transform: rotate(360deg); } }
+            @keyframes gl-ccw { to { transform: rotate(-360deg); } }
           </style>
         </svg>`;
       },
@@ -796,32 +783,19 @@ footer.pagefoot a { color: var(--text-muted); }
 
 .gl-spinner { display: inline-flex; line-height: 0; }
 .gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core,
-.gl-neural-path, .gl-neural-node, .gl-portal-ring,
-.gl-neural-wrapper {
+.gl-neural-arc, .gl-neural-nodes, .gl-portal-ring {
   transform-box: fill-box; transform-origin: center;
 }
-.gl-orbit-outer { animation: gl-cw calc(var(--gl-duration) * 1.5) linear infinite; }
-.gl-orbit-inner { animation: gl-ccw var(--gl-duration) linear infinite; }
-.gl-orbit-core  { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
+.gl-orbit-outer { animation: gl-ccw var(--gl-duration) linear infinite; }
+.gl-orbit-inner { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
 
-.gl-neural-wrapper { animation: gl-scale-pulse calc(var(--gl-duration) * 2.2) ease-in-out infinite; }
-.gl-neural-path { animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite; }
-.gl-neural-node { animation: gl-node-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate; }
-.gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
-.gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
+.gl-neural-arc { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
+.gl-neural-nodes { animation: gl-ccw var(--gl-duration) linear infinite; }
+
 .gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
 
 @keyframes gl-cw  { to { transform: rotate(360deg); } }
-@keyframes gl-ccw { to { transform: rotate(-360deg); } }
-@keyframes gl-dash { to { stroke-dashoffset: -198; } }
-@keyframes gl-scale-pulse {
-  0%, 100% { transform: scale(0.96); }
-  50%      { transform: scale(1.04); }
-}
-@keyframes gl-node-pulse {
-  0%   { transform: scale(0.9); opacity: 0.7; }
-  100% { transform: scale(1.05); opacity: 1; }
-}`;
+@keyframes gl-ccw { to { transform: rotate(-360deg); } }`;
     } else {
       code =
 `import { GenLayerSpinner } from "./GenLayerSpinner";
