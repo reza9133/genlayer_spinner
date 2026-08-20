@@ -114,18 +114,24 @@ function OrbitSVG({ uid }: { uid: string }) {
       </defs>
       <circle cx="50" cy="50" r="42" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="6" />
       <circle cx="50" cy="50" r="29" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="5" />
+      
+      {/* GenLayer Background Wings */}
+      <g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.15">
+        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
+        <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
+      </g>
+
       <g className="gl-orbit-outer" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw var(--gl-duration) linear infinite" }}>
         <circle cx="50" cy="50" r="42" fill="none" stroke={`url(#${gradA})`} strokeWidth="6" strokeLinecap="round" strokeDasharray="198 66" />
       </g>
       <g className="gl-orbit-inner" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-ccw calc(var(--gl-duration) * 1.4) linear infinite" }}>
         <circle cx="50" cy="50" r="29" fill="none" stroke={`url(#${gradB})`} strokeWidth="5" strokeLinecap="round" strokeDasharray="109 73" />
       </g>
-      <circle
-        cx="50" cy="50" r="6"
-        fill="var(--gl-b)"
-        filter={`url(#${glow})`}
-        style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-pulse calc(var(--gl-duration) * .9) ease-in-out infinite" }}
-      />
+      
+      {/* Pulsing GenLayer Diamond Core */}
+      <g className="gl-orbit-core" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-pulse calc(var(--gl-duration) * .9) ease-in-out infinite" }}>
+        <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter={`url(#${glow})`} transform="translate(30, 30) scale(0.4)" />
+      </g>
     </svg>
   );
 }
@@ -158,6 +164,14 @@ function NeuralSVG({ uid }: { uid: string }) {
           </feMerge>
         </filter>
       </defs>
+
+      {/* GenLayer Logo Watermark Anchor */}
+      <g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.12">
+        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
+        <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
+        <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
+      </g>
+
       <path
         d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z"
         fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="3"
@@ -192,6 +206,14 @@ function PortalSVG({ uid }: { uid: string }) {
           <stop offset="100%" stopColor="var(--gl-b)" />
         </linearGradient>
       </defs>
+
+      {/* Micro GenLayer Anchor */}
+      <g transform="translate(6, 6) scale(0.12)" fill="currentColor" opacity="0.25">
+        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
+        <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
+        <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
+      </g>
+
       <circle
         cx="12" cy="12" r="9"
         fill="none" stroke={`url(#${grad})`} strokeWidth="3" strokeLinecap="round" strokeDasharray="42.4 14.1"
