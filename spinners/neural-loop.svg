@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Loading">
+  <defs>
+    <linearGradient id="gl-ng" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="var(--gl-a, #F59E0B)"/>
+      <stop offset="100%" stop-color="var(--gl-b, #0EA5E9)"/>
+    </linearGradient>
+    <filter id="gl-nglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Core Breathing (Opacity only, no scale jump) -->
+  <g style="animation: gl-opulse calc(var(--gl-duration, 1.6s) * 1.5) ease-in-out infinite alternate;">
+    <g transform="translate(32, 32) scale(0.36)">
+      <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a, #F59E0B)" opacity="0.8" />
+      <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b, #0EA5E9)" filter="url(#gl-nglow)" />
+    </g>
+  </g>
+
+  <!-- Static Background Track -->
+  <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.15" />
+
+  <!-- Smooth Rotating Flow Path -->
+  <g class="gl-neural-arc" style="transform-box: fill-box; transform-origin: center; animation: gl-cw calc(var(--gl-duration, 1.6s) * 1.2) linear infinite;">
+    <circle cx="50" cy="50" r="38" fill="none" stroke="url(#gl-ng)" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="100 140" opacity="0.9" />
+  </g>
+
+  <!-- Orbiting Nodes (100% GPU Transform) -->
+  <g class="gl-neural-nodes" style="transform-box: fill-box; transform-origin: center; animation: gl-ccw var(--gl-duration, 1.6s) linear infinite;">
+    <circle cx="50" cy="12" r="5.5" fill="var(--gl-b, #0EA5E9)" filter="url(#gl-nglow)"/>
+    <circle cx="82.9" cy="69" r="5.5" fill="var(--gl-a, #F59E0B)" filter="url(#gl-nglow)"/>
+    <circle cx="17.1" cy="69" r="5.5" fill="var(--gl-a, #F59E0B)" filter="url(#gl-nglow)"/>
+  </g>
+
+  <style>
+    @keyframes gl-opulse {
+      0% { opacity: 0.35; filter: drop-shadow(0 0 2px var(--gl-a, #F59E0B)); }
+      100% { opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b, #0EA5E9)); }
+    }
+    @keyframes gl-cw { to { transform: rotate(360deg); } }
+    @keyframes gl-ccw { to { transform: rotate(-360deg); } }
+  </style>
+</svg>
