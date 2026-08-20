@@ -25,13 +25,13 @@ independent orbits around one shared center, where a pulsing core stands in
 for the value being agreed on. This is the hero/splash mark: it has the
 most moving parts and reads best at 48px+.
 
-### Concept B — "Neural Loop"
+### Concept B — "Neural Orbit"
 Three nodes (validators) sit on a **single unbroken loop** (the contract).
 A gradient stream continuously travels the track — inference flowing
-through consensus — while the loop itself breathes between a rounder,
-organic curve and a tighter, more geometric one, using a CSS `d`-path
-morph. It's built for cards and modals (32–64px) where there's room for the
-extra detail to register.
+through consensus — while the nodes beautifully orbit the center. Rebuilt 
+entirely on hardware-accelerated rotation for a flawless, buttery-smooth 
+experience. It's built for cards and modals (32–64px) where there's room 
+for the extra detail to register.
 
 ### Concept C — "Minimal Portal"
 Reduced to **one circle, one arc, one animation.** Built on a 24px grid so
@@ -39,8 +39,8 @@ it stays pixel-crisp at 16px inside a button and doesn't need to justify
 its existence past that — this is the workhorse for buttons, badges, and
 inline states across the Portal.
 
-All three share the same gradient direction (violet → cyan-teal, `#7A40FF`
-→ `#00F5D4`) and the same easing language, so a user who sees the Minimal
+All three share the same gradient direction (Amber → Ocean Blue, `#F59E0B`
+→ `#0EA5E9`) and the same easing language, so a user who sees the Minimal
 Portal spinner in a button and the Consensus Orbit on a splash screen reads
 them as the same product.
 
@@ -48,37 +48,32 @@ them as the same product.
 
 ## 2. Technical specs
 
-| | Consensus Orbit | Neural Loop | Minimal Portal |
+| | Consensus Orbit | Neural Orbit | Minimal Portal |
 |---|---|---|---|
 | viewBox | 100×100 | 100×100 | 24×24 |
 | DOM nodes | 5 (2 rings + core, + 2 static tracks) | 5 (path + 3 nodes, + 1 static track) | 1 |
-| Animated properties | `transform`, `opacity` | `transform`, `opacity`, `stroke-dashoffset`, `d` | `transform` |
+| Animated properties | `transform`, `opacity` | `transform`, `opacity` | `transform` |
 | Filters | 1 static `feGaussianBlur` (core glow) | 1 static `feGaussianBlur` (node glow) | none |
 | Default cycle | 1.6s | 1.6s | 1.1s (0.6× base) |
 | Recommended size range | 48px – hero | 32px – 96px | 16px – 24px |
 
-**Why it holds 60fps:** every animation drives `transform` and `opacity`
-only (both compositor-only properties), plus `stroke-dashoffset` and `d` on
-Neural Loop, which animate cheaply on a single thin path. Nothing animates
-`width`, `filter` radius, or `box-shadow` — the one blur filter per concept
+**Why it holds 60fps:** EVERY animation across all three concepts drives `transform` and `opacity`
+only (both compositor-only properties). Nothing animates
+`width`, `filter` radius, `box-shadow`, or SVG `d` paths — the one blur filter per concept
 is static (applied once, not animated), so it costs a single GPU layer, not
 a per-frame recalculation. Total DOM footprint per spinner tops out at 5
 nodes, so a page with a dozen spinners on screen (a busy transaction list,
-say) stays cheap.
+say) stays incredibly cheap and lag-free.
 
 **Why it's tiny:** each SVG is under 1.5KB uncompressed. The CSS file
-(`css/genlayer-spinners.css`) is ~4KB and covers all three concepts, every
+(`css/genlayer-spinners.css`) is ~3KB and covers all three concepts, every
 size, and reduced-motion handling. No JS is required to render or animate
-any of them — the interactive playground's JS is purely for the
-demo/controls, not the spinners themselves.
+any of them.
 
 **Color & speed as CSS variables, not hardcoded values:** every spinner
 reads `var(--gl-a)`, `var(--gl-b)`, and `var(--gl-duration)` with sane
 fallbacks. That means a single `:root` override can retheme every spinner
-on a page (or restyle just one instance by setting the vars on its
-wrapper) — used throughout the Portal to color-code state, e.g. an amber
-`--gl-a`/`--gl-b` pair while a transaction is pending vs. the standard
-violet/teal on a fresh load.
+on a page.
 
 ---
 
@@ -116,7 +111,7 @@ in the file header, e.g.:
     <circle class="gl-portal-ring" cx="12" cy="12" r="9"/>
   </svg>
 </span>
-React / Tailwind
+React / Tailwind / TypeScript
 TypeScript
 import { GenLayerSpinner } from "./react/GenLayerSpinner";
 
@@ -132,14 +127,15 @@ relies on it rather than injecting <style> tags per render, so it stays
 cheap even with many instances on screen.
 
 5. Project structure
+Plaintext
 genlayer-spinner-bounty/
 ├── index.html                    # interactive playground — theme switcher,
-│                                  # size matrix, context sims, live speed/color
-│                                  # controls, one-click code export
+│                                 # size matrix, context sims, live speed/color
+│                                 # controls, one-click code export
 ├── README.md                     # this file
 ├── spinners/
 │   ├── consensus-orbit.svg       # Concept A — standalone, dark/light adaptive
-│   ├── neural-loop.svg           # Concept B — standalone, CSS d-path morph
+│   ├── neural-orbit.svg          # Concept B — standalone, Pure GPU Rotation
 │   └── minimal-portal.svg        # Concept C — standalone, 24px grid
 ├── css/
 │   └── genlayer-spinners.css     # framework-free, all 3 concepts + a11y
@@ -148,8 +144,5 @@ genlayer-spinner-bounty/
 6. Browser support
 Built entirely on standard SVG + CSS: transform, opacity,
 stroke-dasharray/-dashoffset, and CSS custom properties are supported
-everywhere GenLayer Portal targets. The Neural Loop's d-path morph uses
-the CSS d property (Chrome/Edge 117+, Safari 16.4+, Firefox 129+); on
-older engines it degrades gracefully to the static outline shape with the
-flowing dash and node-pulse animations still fully working — no error, no
-layout shift, just one fewer flourish.
+everywhere GenLayer Portal targets. Fully optimized for 60fps hardware-accelerated
+rendering across all modern browsers (Chrome, Safari, Firefox, Edge).
