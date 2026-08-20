@@ -1,15 +1,28 @@
 import React, { useId, useMemo } from "react";
 
+/**
+ * <GenLayerSpinner />
+ * Official GenLayer Portal loading spinner. Three concepts, one API.
+ * Updated with active spinning logo and custom default brand colors.
+ */
+
 export type GenLayerSpinnerVariant = "orbit" | "neural" | "portal";
 export type GenLayerSpinnerSize = "sm" | "md" | "lg" | number;
 
 export interface GenLayerSpinnerProps {
+  /** Visual concept. Defaults to "orbit". */
   variant?: GenLayerSpinnerVariant;
+  /** Preset token (sm=16, md=32, lg=64) or an explicit pixel size. */
   size?: GenLayerSpinnerSize;
+  /** Gradient start color. Defaults to GenLayer Bronze. */
   colorFrom?: string;
+  /** Gradient end color. Defaults to Steel Blue. */
   colorTo?: string;
+  /** Full rotation cycle length in seconds. 0.5–3 recommended. */
   speed?: number;
+  /** Accessible label announced by screen readers. */
   label?: string;
+  /** Additional classes applied to the wrapping <span>. */
   className?: string;
 }
 
@@ -65,6 +78,9 @@ export function GenLayerSpinner({
   );
 }
 
+/* ---------------------------------------------------------------------- */
+/* Concept A — Consensus Orbit (With Spinning Logo)                       */
+/* ---------------------------------------------------------------------- */
 function OrbitSVG({ uid }: { uid: string }) {
   const gradA = `gl-orbit-a-${uid}`;
   const gradB = `gl-orbit-b-${uid}`;
@@ -88,6 +104,7 @@ function OrbitSVG({ uid }: { uid: string }) {
 
       <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 4" opacity="0.15"/>
       
+      {/* Active Spinning Logo Core */}
       <g className="gl-logo-spin" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * 1.5) linear infinite" }}>
         <g transform="translate(32, 32) scale(0.36)">
           <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill={`url(#${gradA})`} opacity="0.9" />
@@ -106,6 +123,9 @@ function OrbitSVG({ uid }: { uid: string }) {
   );
 }
 
+/* ---------------------------------------------------------------------- */
+/* Concept B — Neural Loop (High Visibility Pulsing Logo)                 */
+/* ---------------------------------------------------------------------- */
 function NeuralSVG({ uid }: { uid: string }) {
   const grad = `gl-neural-${uid}`;
   const glow = `gl-neural-glow-${uid}`;
@@ -156,6 +176,9 @@ function NeuralSVG({ uid }: { uid: string }) {
   );
 }
 
+/* ---------------------------------------------------------------------- */
+/* Concept C — Minimal Portal (Spinning Micro Logo)                       */
+/* ---------------------------------------------------------------------- */
 function PortalSVG({ uid }: { uid: string }) {
   const grad = `gl-portal-${uid}`;
   return (
