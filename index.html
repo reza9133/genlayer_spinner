@@ -216,7 +216,7 @@ input[type="range"]::-moz-range-thumb {
   animation: gl-ccw calc(var(--gl-duration) * 6) linear infinite;
 }
 html[data-theme="high-contrast"] .stage-halo { display: none; }
-.stage-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.stage-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
 .stage-spinner { display: grid; place-items: center; height: 110px; }
 .stage-title { font-size: 22px; }
 .stage-desc { max-width: 520px; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
@@ -336,7 +336,7 @@ footer.pagefoot a { color: var(--text-muted); }
 }
 
 /* ============================================================
-   SPINNER ENGINE 
+   SPINNER ENGINE — shared by every rendered instance
    ============================================================ */
 .gl-spinner { display: inline-flex; line-height: 0; }
 .gl-spinner svg { display: block; overflow: visible; }
@@ -352,9 +352,9 @@ footer.pagefoot a { color: var(--text-muted); }
   animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
              gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
 }
-.gl-neural-node { animation: gl-npulse calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate; }
-.gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.5); }
-.gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -1.0); }
+.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) linear infinite; }
+.gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
+.gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
 .gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
 
 @keyframes gl-cw  { to { transform: rotate(360deg); } }
@@ -363,10 +363,6 @@ footer.pagefoot a { color: var(--text-muted); }
 @keyframes gl-pulse {
   0%, 100% { opacity: .5; transform: scale(.82); }
   50%      { opacity: 1;  transform: scale(1.18); }
-}
-@keyframes gl-npulse {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  100% { transform: scale(1.05); opacity: 1; }
 }
 @keyframes gl-morph {
   0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
@@ -557,8 +553,8 @@ footer.pagefoot a { color: var(--text-muted); }
       short: "Consensus Orbit",
       sub: "Dual-ring · counter-rotation",
       eyebrow: "CONCEPT A",
-      desc: "Two outer rings counter-rotate while the central GenLayer logo actively spins — a literal read of Optimistic Democracy.",
-      specs: ["Spinning Logo", "GPU: transform + opacity", "Default 1.6s"],
+      desc: "Two outer rings counter-rotate while the central GenLayer logo actively spins — a literal read of Optimistic Democracy: independent motion, one shared dynamic core.",
+      specs: ["Spinning Logo", "GPU: transform + opacity", "High Contrast", "Default 1.6s"],
       defaultSpeed: 1.6,
       svg(size) {
         const u = nextUid();
@@ -571,14 +567,19 @@ footer.pagefoot a { color: var(--text-muted); }
             <linearGradient id="gl-ob-${u}" x1="100%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="var(--gl-b)"/><stop offset="100%" stop-color="var(--gl-a)"/>
             </linearGradient>
+            <filter id="gl-og-${u}" x="-120%" y="-120%" width="340%" height="340%">
+              <feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
           </defs>
           <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 4" opacity="0.15"/>
+          
           <g class="gl-logo-spin" style="transform-box: fill-box; transform-origin: center; animation: gl-cw calc(var(--gl-duration) * 1.5) linear infinite;">
             <g transform="translate(32, 32) scale(0.36)">
               <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="url(#gl-oa-${u})" opacity="0.9" />
-              <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)"/>
+              <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter="url(#gl-og-${u})" />
             </g>
           </g>
+
           <g class="gl-orbit-outer" style="transform-box: fill-box; transform-origin: center; animation: gl-ccw var(--gl-duration) linear infinite;">
             <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 8" opacity="0.3" />
             <circle cx="50" cy="50" r="40" fill="none" stroke="url(#gl-oa-${u})" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="140 80"/>
@@ -598,8 +599,8 @@ footer.pagefoot a { color: var(--text-muted); }
       short: "Neural Loop",
       sub: "Morphing path · flow",
       eyebrow: "CONCEPT B",
-      desc: "Bold morphing paths revolving around a heavily pulsing GenLayer anchor. Designed for maximum visibility.",
-      specs: ["Thickened Paths", "Heavy Pulse Logo", "Default 1.6s"],
+      desc: "Bold morphing paths with highly visible nodes revolving around a heavily pulsing GenLayer anchor. Designed for maximum visibility.",
+      specs: ["Thickened Paths", "Heavy Pulse Logo", "Glowing Nodes", "Default 1.6s"],
       defaultSpeed: 1.6,
       svg(size) {
         const u = nextUid();
@@ -609,22 +610,29 @@ footer.pagefoot a { color: var(--text-muted); }
             <linearGradient id="gl-ng-${u}" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="var(--gl-a)"/><stop offset="50%" stop-color="var(--gl-b)"/><stop offset="100%" stop-color="var(--gl-a)"/>
             </linearGradient>
+            <filter id="gl-nglow-${u}" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
           </defs>
+
+          <!-- Fixed Centered Logo Pulse (Strictly Inside 100x100 viewBox) -->
           <g style="transform-box: fill-box; transform-origin: center; animation: gl-npulse-${u} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate;">
             <g transform="translate(32, 32) scale(0.36)">
               <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a)" opacity="0.85" />
-              <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" />
+              <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter="url(#gl-nglow-${u})" />
             </g>
           </g>
+
           <path d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z" fill="none" stroke="var(--track)" stroke-width="4" opacity="0.5"/>
           <path class="gl-neural-path" d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z" fill="none" stroke="url(#gl-ng-${u})" stroke-width="5" stroke-linecap="round" stroke-dasharray="60 120" style="transform-box: fill-box; transform-origin: center; animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;"/>
-          <circle cx="50" cy="18" r="5" fill="var(--gl-b)"/>
-          <circle cx="77.71" cy="66" r="5" fill="var(--gl-a)"/>
-          <circle cx="22.29" cy="66" r="5" fill="var(--gl-a)"/>
+          
+          <circle cx="50" cy="18" r="5" fill="var(--gl-b)" filter="url(#gl-nglow-${u})"/>
+          <circle cx="77.71" cy="66" r="5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})"/>
+          <circle cx="22.29" cy="66" r="5" fill="var(--gl-a)" filter="url(#gl-nglow-${u})"/>
           <style>
             @keyframes gl-npulse-${u} {
-              0% { transform: scale(0.9); opacity: 0.7; }
-              100% { transform: scale(1.05); opacity: 1; }
+              0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px var(--gl-a)); }
+              100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b)); }
             }
           </style>
         </svg>`;
@@ -635,8 +643,8 @@ footer.pagefoot a { color: var(--text-muted); }
       short: "Minimal Portal",
       sub: "Spinning logo · micro UI",
       eyebrow: "CONCEPT C",
-      desc: "GenLayer Micro-Logo actively spins inside a counter-rotating tracking arc.",
-      specs: ["Spinning Logo", "Dual Rotation", "Default 1.1s"],
+      desc: "The GenLayer Micro-Logo actively spins inside a counter-rotating tracking arc. Highly visible and dynamic even at 16px.",
+      specs: ["Spinning Logo", "Dual Rotation", "Cheapest to render", "Default 1.1s"],
       defaultSpeed: 1.1,
       svg(size) {
         const u = nextUid();
@@ -766,7 +774,36 @@ footer.pagefoot a { color: var(--text-muted); }
   --gl-duration: ${dur}s;
   --track: rgba(255,255,255,.08);
 }
-/* ... all standard CSS spinner engine ... */`;
+
+.gl-spinner { display: inline-flex; line-height: 0; }
+.gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core,
+.gl-neural-path, .gl-neural-node, .gl-portal-ring {
+  transform-box: fill-box; transform-origin: center;
+}
+.gl-orbit-outer { animation: gl-cw calc(var(--gl-duration) * 1.5) linear infinite; }
+.gl-orbit-inner { animation: gl-ccw var(--gl-duration) linear infinite; }
+.gl-orbit-core  { animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite; }
+
+.gl-neural-path {
+  animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
+             gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
+}
+.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) linear infinite; }
+.gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
+.gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
+.gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
+
+@keyframes gl-cw  { to { transform: rotate(360deg); } }
+@keyframes gl-ccw { to { transform: rotate(-360deg); } }
+@keyframes gl-dash { to { stroke-dashoffset: -198; } }
+@keyframes gl-pulse {
+  0%, 100% { opacity: .5; transform: scale(.82); }
+  50%      { opacity: 1;  transform: scale(1.18); }
+}
+@keyframes gl-morph {
+  0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
+  50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
+}`;
     } else {
       code =
 `import { GenLayerSpinner } from "./GenLayerSpinner";
