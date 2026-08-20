@@ -182,3 +182,20 @@ function PortalSVG({ uid }: { uid: string }) {
 }
 
 export default GenLayerSpinner;
+
+/**
+ * Global keyframes — add once to your app's root stylesheet (e.g. globals.css).
+ * Tailwind's @layer utilities is a good home for these.
+ *
+ * @keyframes gl-cw { to { transform: rotate(360deg); } }
+ * @keyframes gl-ccw { to { transform: rotate(-360deg); } }
+ * @keyframes gl-dash { to { stroke-dashoffset: -198; } }
+ * @keyframes gl-pulse {
+ *   0%, 100% { opacity: .5; transform: scale(.82); }
+ *   50%      { opacity: 1;  transform: scale(1.18); }
+ * }
+ * @keyframes gl-morph {
+ *   0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
+ *   50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
+ * }
+ */
