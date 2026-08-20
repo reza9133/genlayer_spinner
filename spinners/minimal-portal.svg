@@ -1,0 +1,52 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  role="img"
+  aria-label="Loading"
+  class="gl-portal"
+>
+  <defs>
+    <linearGradient id="gl-portal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="var(--gl-a, #7A40FF)" />
+      <stop offset="100%" stop-color="var(--gl-b, #00F5D4)" />
+    </linearGradient>
+  </defs>
+
+  <!-- GenLayer Micro Anchor (Subtly Breathing) -->
+  <g transform="translate(6, 6) scale(0.12)" class="gl-portal-logo">
+    <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="currentColor" />
+  </g>
+
+  <circle
+    class="gl-portal-ring"
+    cx="12" cy="12" r="9"
+    fill="none"
+    stroke="url(#gl-portal-grad)"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-dasharray="42.4 14.1"
+  />
+
+  <style>
+    .gl-portal-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: gl-portal-spin calc(var(--gl-duration, 1.6s) * 0.6) linear infinite;
+    }
+    .gl-portal-logo {
+      color: var(--gl-a, #7A40FF);
+      animation: gl-portal-breathe calc(var(--gl-duration, 1.6s) * 1.2) ease-in-out infinite;
+    }
+    @keyframes gl-portal-spin { to { transform: rotate(360deg); } }
+    @keyframes gl-portal-breathe {
+      0%, 100% { opacity: 0.15; }
+      50%      { opacity: 0.45; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gl-portal-ring { animation-duration: 1.6s; }
+      .gl-portal-logo { animation: none; opacity: 0.3; }
+    }
+  </style>
+</svg>

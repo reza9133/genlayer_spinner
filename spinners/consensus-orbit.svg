@@ -1,0 +1,100 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 100 100"
+  width="96"
+  height="96"
+  role="img"
+  aria-label="Loading — GenLayer Consensus Orbit"
+  class="gl-orbit"
+>
+  <defs>
+    <linearGradient id="gl-orbit-outer-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="var(--gl-a, #7A40FF)" />
+      <stop offset="100%" stop-color="var(--gl-b, #00F5D4)" />
+    </linearGradient>
+    <linearGradient id="gl-orbit-inner-grad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="var(--gl-b, #00F5D4)" />
+      <stop offset="100%" stop-color="var(--gl-a, #7A40FF)" />
+    </linearGradient>
+    <filter id="gl-orbit-glow" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="2.2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- faint static guide rings -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" stroke-width="6" />
+  <circle cx="50" cy="50" r="29" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" stroke-width="5" />
+
+  <!-- The GenLayer Wings (Breathing Hologram) -->
+  <g transform="translate(30, 30) scale(0.4)" class="gl-orbit-wings">
+    <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="currentColor" />
+  </g>
+
+  <g class="gl-orbit-outer">
+    <circle
+      cx="50" cy="50" r="42"
+      fill="none"
+      stroke="url(#gl-orbit-outer-grad)"
+      stroke-width="6"
+      stroke-linecap="round"
+      stroke-dasharray="198 66"
+    />
+  </g>
+
+  <g class="gl-orbit-inner">
+    <circle
+      cx="50" cy="50" r="29"
+      fill="none"
+      stroke="url(#gl-orbit-inner-grad)"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-dasharray="109 73"
+    />
+  </g>
+
+  <!-- The GenLayer Core Diamond (Pulsing and Glowing) -->
+  <g class="gl-orbit-core">
+    <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b, #00F5D4)" filter="url(#gl-orbit-glow)" transform="translate(30, 30) scale(0.4)" />
+  </g>
+
+  <style>
+    .gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .gl-orbit-outer { animation: gl-orbit-cw var(--gl-duration, 1.6s) linear infinite; }
+    .gl-orbit-inner { animation: gl-orbit-ccw calc(var(--gl-duration, 1.6s) * 1.4) linear infinite; }
+    
+    /* Beautiful Diamond Pulse */
+    .gl-orbit-core { animation: gl-orbit-pulse calc(var(--gl-duration, 1.6s) * 0.9) ease-in-out infinite; }
+    
+    /* Breathing Wings Effect */
+    .gl-orbit-wings {
+      color: var(--gl-a, #7A40FF);
+      animation: gl-wings-breathe calc(var(--gl-duration, 1.6s) * 2) ease-in-out infinite;
+    }
+
+    @keyframes gl-orbit-cw { to { transform: rotate(360deg); } }
+    @keyframes gl-orbit-ccw { to { transform: rotate(-360deg); } }
+    @keyframes gl-orbit-pulse {
+      0%, 100% { opacity: .6; transform: scale(.85); }
+      50%      { opacity: 1;  transform: scale(1.15); }
+    }
+    @keyframes gl-wings-breathe {
+      0%, 100% { opacity: 0.1; filter: drop-shadow(0 0 2px currentColor); }
+      50%      { opacity: 0.35; filter: drop-shadow(0 0 12px currentColor); }
+    }
+    @media (prefers-color-scheme: light) {
+      .gl-orbit { --gl-track: rgba(9, 10, 15, .10); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gl-orbit-outer, .gl-orbit-inner { animation-duration: 2.8s; }
+      .gl-orbit-core { animation: none; opacity: .9; }
+      .gl-orbit-wings { animation: none; opacity: 0.2; }
+    }
+  </style>
+</svg>
