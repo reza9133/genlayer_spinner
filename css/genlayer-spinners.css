@@ -1,20 +1,10 @@
 /*!
  * GenLayer Spinners — pure CSS, zero dependencies.
- * Drop this file in and use the markup blocks below. All three concepts
- * share one token surface, so a single override changes every spinner
- * on the page:
- *
- *   :root {
- *     --gl-a: #71461E;        // gradient start (Bronze)
- *     --gl-b: #3C5872;        // gradient end (Steel Blue)
- *     --gl-duration: 1.6s;    // base cycle length, 0.5s–3s recommended
- *     --gl-track: rgba(255,255,255,.08); // idle ring color, set per theme
- *   }
  */
 
 .gl-spinner {
-  --gl-a: #71461E;
-  --gl-b: #3C5872;
+  --gl-a: #F59E0B;
+  --gl-b: #0EA5E9;
   --gl-duration: 1.6s;
   --gl-track: rgba(255, 255, 255, .08);
   display: inline-flex;
@@ -41,45 +31,34 @@
   transform-origin: center;
 }
 .gl-spinner--orbit .gl-orbit-outer {
-  fill: none;
-  stroke: var(--gl-a);
-  stroke-width: 4.5;
-  stroke-linecap: round;
-  stroke-dasharray: 140 80;
-  animation: gl-ccw var(--gl-duration) linear infinite;
+  fill: none; stroke: var(--gl-a); stroke-width: 4.5; stroke-linecap: round;
+  stroke-dasharray: 140 80; animation: gl-ccw var(--gl-duration) linear infinite;
 }
 .gl-spinner--orbit .gl-orbit-inner {
-  fill: none;
-  stroke: var(--gl-b);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 80 60;
-  animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite;
+  fill: none; stroke: var(--gl-b); stroke-width: 3; stroke-linecap: round;
+  stroke-dasharray: 80 60; animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite;
 }
 .gl-spinner--orbit .gl-logo-spin {
   animation: gl-cw calc(var(--gl-duration) * 1.5) linear infinite;
 }
 
-/* ---------- Concept B: Neural Loop ---------- */
+/* ---------- Concept B: Neural Loop (Fully GPU Optimized) ---------- */
 .gl-spinner--neural .gl-neural-path,
 .gl-spinner--neural .gl-neural-node,
+.gl-spinner--neural .gl-neural-wrapper,
 .gl-spinner--neural .gl-logo-pulse {
   transform-box: fill-box;
   transform-origin: center;
 }
+.gl-spinner--neural .gl-neural-wrapper {
+  animation: gl-scale-pulse calc(var(--gl-duration) * 2.2) ease-in-out infinite;
+}
 .gl-spinner--neural .gl-neural-path {
-  fill: none;
-  stroke: var(--gl-a);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 60 120;
-  animation:
-    gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
-    gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
+  fill: none; stroke: var(--gl-a); stroke-width: 5; stroke-linecap: round;
+  stroke-dasharray: 60 120; animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite;
 }
 .gl-spinner--neural .gl-neural-node {
-  fill: var(--gl-a);
-  animation: gl-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite;
+  fill: var(--gl-a); animation: gl-node-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate;
 }
 .gl-spinner--neural .gl-neural-node.n1 { fill: var(--gl-b); }
 .gl-spinner--neural .gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
@@ -95,12 +74,8 @@
   transform-origin: center;
 }
 .gl-spinner--portal .gl-portal-ring {
-  fill: none;
-  stroke: var(--gl-a);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-dasharray: 38 18;
-  animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite;
+  fill: none; stroke: var(--gl-a); stroke-width: 2.5; stroke-linecap: round;
+  stroke-dasharray: 38 18; animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite;
 }
 .gl-spinner--portal .gl-logo-spin {
   animation: gl-cw calc(var(--gl-duration) * 1.2) linear infinite;
@@ -110,17 +85,17 @@
 @keyframes gl-cw    { to { transform: rotate(360deg); } }
 @keyframes gl-ccw   { to { transform: rotate(-360deg); } }
 @keyframes gl-dash  { to { stroke-dashoffset: -198; } }
-@keyframes gl-pulse {
-  0%, 100% { opacity: .5;  transform: scale(.82); }
-  50%      { opacity: 1;   transform: scale(1.18); }
+@keyframes gl-scale-pulse {
+  0%, 100% { transform: scale(0.96); }
+  50%      { transform: scale(1.04); }
+}
+@keyframes gl-node-pulse {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.05); opacity: 1; }
 }
 @keyframes gl-pulse-logo {
   0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px var(--gl-a)); }
   100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b)); }
-}
-@keyframes gl-morph {
-  0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
-  50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
 }
 
 /* ---------- accessibility: motion reduction ---------- */
@@ -129,7 +104,8 @@
   .gl-spinner--orbit .gl-orbit-inner,
   .gl-spinner--orbit .gl-logo-spin { animation-duration: 2.8s; }
   .gl-spinner--orbit .gl-logo-pulse,
-  .gl-spinner--neural .gl-neural-node { animation: none; opacity: .85; }
+  .gl-spinner--neural .gl-neural-node,
+  .gl-spinner--neural .gl-neural-wrapper { animation: none; opacity: .85; }
   .gl-spinner--neural .gl-neural-path { animation: gl-dash 3s linear infinite; }
   .gl-spinner--portal .gl-portal-ring { animation-duration: 1.6s; }
 }
