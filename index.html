@@ -21,7 +21,6 @@
   --track: rgba(255,255,255,.09);
   --shadow: 0 30px 80px -20px rgba(0,0,0,.6);
 
-  /* New Default Colors */
   --gl-a: #71461E;
   --gl-b: #3C5872;
   --gl-duration: 1.6s;
@@ -95,7 +94,6 @@ header.top {
   gap: 20px; padding: 22px 0 30px; flex-wrap: wrap;
 }
 .brand { display: flex; align-items: center; gap: 14px; }
-
 .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -.01em; }
 .brand-sub { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: .08em; margin-top: 2px; }
 
@@ -176,6 +174,15 @@ input[type="range"]::-moz-range-thumb {
   width: 16px; height: 16px; border-radius: 50%; background: var(--text);
   border: 3px solid var(--gl-a); cursor: pointer;
 }
+
+/* Speed Preset Buttons */
+.speed-presets { display: flex; gap: 6px; margin-top: 4px; }
+.speed-btn {
+  flex: 1; font-family: var(--font-mono); font-size: 10.5px; padding: 5px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; transition: all .15s ease;
+}
+.speed-btn:hover { border-color: var(--gl-a); color: var(--text); }
 
 .color-row { display: flex; align-items: center; gap: 10px; }
 .swatch-input {
@@ -345,7 +352,7 @@ footer.pagefoot a { color: var(--text-muted); }
   animation: gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
              gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
 }
-.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) linear infinite; }
+.gl-neural-node { animation: gl-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite; }
 .gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
 .gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
 .gl-portal-ring { animation: gl-ccw calc(var(--gl-duration) * .8) linear infinite; }
@@ -406,6 +413,11 @@ footer.pagefoot a { color: var(--text-muted); }
         <div class="field">
           <div class="field-row"><span>Rotation cycle</span><span class="val mono" id="speedVal">1.6s</span></div>
           <input type="range" id="speedSlider" min="0.5" max="3" step="0.1" value="1.6" />
+          <div class="speed-presets">
+            <button class="speed-btn" data-speed="0.8">0.8s (Fast)</button>
+            <button class="speed-btn" data-speed="1.6">1.6s</button>
+            <button class="speed-btn" data-speed="2.4">2.4s (Slow)</button>
+          </div>
         </div>
       </div>
 
@@ -513,8 +525,8 @@ footer.pagefoot a { color: var(--text-muted); }
       </section>
 
       <footer class="pagefoot">
-        <span>GenLayer Spinner Bounty · genlayer-spinner-bounty/index.html</span>
-        <span>Live demo: <a href="#">[deployment URL placeholder — see README]</a></span>
+        <span>GenLayer Spinner Bounty · Submission Ready</span>
+        <span>Interactive Playground</span>
       </footer>
     </main>
   </div>
@@ -532,9 +544,6 @@ footer.pagefoot a { color: var(--text-muted); }
 (() => {
   "use strict";
 
-  /* ----------------------------------------------------------
-     CONCEPT REGISTRY (HIGH-VISIBILITY & SPINNING LOGO UPGRADE)
-  ---------------------------------------------------------- */
   let uidCounter = 0;
   const nextUid = () => (uidCounter++).toString(36);
 
@@ -679,9 +688,6 @@ footer.pagefoot a { color: var(--text-muted); }
   const root = document.documentElement;
   const $ = (sel) => document.querySelector(sel);
 
-  /* ----------------------------------------------------------
-     RENDER: control rail — concept list + presets
-  ---------------------------------------------------------- */
   function renderConceptList() {
     const el = $("#conceptList");
     el.innerHTML = Object.entries(CONCEPTS).map(([key, c]) => `
@@ -719,9 +725,6 @@ footer.pagefoot a { color: var(--text-muted); }
     });
   }
 
-  /* ----------------------------------------------------------
-     RENDER: stage
-  ---------------------------------------------------------- */
   function renderStage() {
     const c = CONCEPTS[state.concept];
     $("#stageEyebrow").textContent = c.eyebrow;
@@ -731,9 +734,6 @@ footer.pagefoot a { color: var(--text-muted); }
     $("#stageSpecs").innerHTML = c.specs.map((s) => `<span class="spec-chip">${s}</span>`).join("");
   }
 
-  /* ----------------------------------------------------------
-     RENDER: size matrix
-  ---------------------------------------------------------- */
   function renderSizeMatrix() {
     const c = CONCEPTS[state.concept];
     const el = $("#sizeMatrix");
@@ -745,9 +745,6 @@ footer.pagefoot a { color: var(--text-muted); }
     `).join("");
   }
 
-  /* ----------------------------------------------------------
-     RENDER: context simulations
-  ---------------------------------------------------------- */
   function renderContexts() {
     const c = CONCEPTS[state.concept];
     $("#ctxButtonSpinner").innerHTML = `<span class="gl-spinner">${CONCEPTS.portal.svg(16)}</span>`;
@@ -760,9 +757,6 @@ footer.pagefoot a { color: var(--text-muted); }
     $("#overlaySpinner").innerHTML = `<span class="gl-spinner">${c.svg(120)}</span>`;
   }
 
-  /* ----------------------------------------------------------
-     RENDER: code export
-  ---------------------------------------------------------- */
   function renderCode() {
     const c = CONCEPTS[state.concept];
     const dur = state.duration.toFixed(1);
@@ -770,7 +764,7 @@ footer.pagefoot a { color: var(--text-muted); }
     if (state.codeTab === "svg") {
       code = c.svg(96)
         .trim()
-        .replace(/\s{2,}/g, (m) => m) // keep indentation as-authored
+        .replace(/\s{2,}/g, (m) => m)
         + `\n\n<!-- host page sets these once: -->\n<style>\n  :root {\n    --gl-a: ${state.colorA};\n    --gl-b: ${state.colorB};\n    --gl-duration: ${dur}s;\n    --track: rgba(255,255,255,.08);\n  }\n</style>`;
     } else if (state.codeTab === "css") {
       code =
@@ -809,8 +803,7 @@ footer.pagefoot a { color: var(--text-muted); }
 @keyframes gl-morph {
   0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
   50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
-}
-/* full ruleset for all three concepts: css/genlayer-spinners.css */`;
+}`;
     } else {
       code =
 `import { GenLayerSpinner } from "./GenLayerSpinner";
@@ -827,9 +820,6 @@ footer.pagefoot a { color: var(--text-muted); }
     $("#codeOutput").textContent = code;
   }
 
-  /* ----------------------------------------------------------
-     APPLY: css custom properties (drives every instance at once)
-  ---------------------------------------------------------- */
   function applyVars() {
     root.style.setProperty("--gl-a", state.colorA);
     root.style.setProperty("--gl-b", state.colorB);
@@ -853,9 +843,6 @@ footer.pagefoot a { color: var(--text-muted); }
     renderCode();
   }
 
-  /* ----------------------------------------------------------
-     EVENTS
-  ---------------------------------------------------------- */
   document.querySelectorAll("[data-theme-btn]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.theme = btn.dataset.themeBtn;
@@ -869,6 +856,17 @@ footer.pagefoot a { color: var(--text-muted); }
     syncSpeedLabel();
     applyVars();
     renderCode();
+  });
+
+  // Speed Presets Click Handler
+  document.querySelectorAll(".speed-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.duration = parseFloat(btn.dataset.speed);
+      $("#speedSlider").value = state.duration;
+      syncSpeedLabel();
+      applyVars();
+      renderCode();
+    });
   });
 
   $("#colorA").addEventListener("input", (e) => {
@@ -923,15 +921,11 @@ footer.pagefoot a { color: var(--text-muted); }
     overlay.classList.add("open");
   }
   function closeOverlay() { overlay.classList.remove("open"); }
-  $("#fullscreenTrigger").overlay = openOverlay; // safe reference
   $("#fullscreenTrigger").addEventListener("click", openOverlay);
   $("#openSplash").addEventListener("click", openOverlay);
   $("#overlayClose").addEventListener("click", closeOverlay);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeOverlay(); });
 
-  /* ----------------------------------------------------------
-     INIT
-  ---------------------------------------------------------- */
   applyVars();
   syncSpeedLabel();
   syncColorLabels();
