@@ -112,9 +112,10 @@ function OrbitSVG({ uid }: { uid: string }) {
           </feMerge>
         </filter>
       </defs>
-      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="6" />
-      <circle cx="50" cy="50" r="29" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="5" />
-      
+
+      {/* Faint grid background ring */}
+      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 3" opacity="0.1"/>
+
       {/* GenLayer Background Wings */}
       <g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.15">
         <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
@@ -122,10 +123,21 @@ function OrbitSVG({ uid }: { uid: string }) {
       </g>
 
       <g className="gl-orbit-outer" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw var(--gl-duration) linear infinite" }}>
-        <circle cx="50" cy="50" r="42" fill="none" stroke={`url(#${gradA})`} strokeWidth="6" strokeLinecap="round" strokeDasharray="198 66" />
+        {/* HUD Data Ring */}
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2 6" opacity="0.3" />
+        {/* Main Energy Ring */}
+        <circle cx="50" cy="50" r="40" fill="none" stroke={`url(#${gradA})`} strokeWidth="4.5" strokeLinecap="round" strokeDasharray="140 80" />
+        {/* Energy Comet */}
+        <circle cx="90" cy="50" r="3" fill="var(--gl-b)" filter={`url(#${glow})`} />
       </g>
+      
       <g className="gl-orbit-inner" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-ccw calc(var(--gl-duration) * 1.4) linear infinite" }}>
-        <circle cx="50" cy="50" r="29" fill="none" stroke={`url(#${gradB})`} strokeWidth="5" strokeLinecap="round" strokeDasharray="109 73" />
+        {/* Secondary HUD Ring */}
+        <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 8" opacity="0.2" />
+        {/* Inner Energy Ring */}
+        <circle cx="50" cy="50" r="28" fill="none" stroke={`url(#${gradB})`} strokeWidth="3" strokeLinecap="round" strokeDasharray="80 60" />
+        {/* Inner Comet */}
+        <circle cx="22" cy="50" r="2.5" fill="var(--gl-a)" filter={`url(#${glow})`} />
       </g>
       
       {/* Pulsing GenLayer Diamond Core */}
@@ -172,13 +184,17 @@ function NeuralSVG({ uid }: { uid: string }) {
         <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
       </g>
 
+      {/* Outer faint HUD path */}
+      <path className="gl-neural-path" d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 6" opacity="0.3" 
+        style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite" }}/>
+
       <path
         d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z"
         fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="3"
       />
       <path
         d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"
-        fill="none" stroke={`url(#${grad})`} strokeWidth="3.5" strokeLinecap="round" strokeDasharray="44 154"
+        fill="none" stroke={`url(#${grad})`} strokeWidth="3.5" strokeLinecap="round" strokeDasharray="60 120"
         style={{
           transformBox: "fill-box",
           transformOrigin: "center",
@@ -186,9 +202,19 @@ function NeuralSVG({ uid }: { uid: string }) {
             "gl-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite",
         }}
       />
-      <circle cx="50" cy="18" r="4" fill="var(--gl-b)" filter={`url(#${glow})`} style={nodeStyle(0)} />
-      <circle cx="77.71" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.37)} />
-      <circle cx="22.29" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.74)} />
+      
+      <g className="gl-neural-node n1" style={nodeStyle(0)}>
+        <circle cx="50" cy="18" r="4" fill="var(--gl-b)" filter={`url(#${glow})`} />
+        <circle cx="50" cy="18" r="8" fill="none" stroke="var(--gl-b)" strokeWidth="1" opacity="0.5" />
+      </g>
+      <g className="gl-neural-node n2" style={nodeStyle(-0.37)}>
+        <circle cx="77.71" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} />
+        <circle cx="77.71" cy="66" r="8" fill="none" stroke="var(--gl-a)" strokeWidth="1" opacity="0.5" />
+      </g>
+      <g className="gl-neural-node n3" style={nodeStyle(-0.74)}>
+        <circle cx="22.29" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} />
+        <circle cx="22.29" cy="66" r="8" fill="none" stroke="var(--gl-a)" strokeWidth="1" opacity="0.5" />
+      </g>
     </svg>
   );
 }
@@ -196,7 +222,7 @@ function NeuralSVG({ uid }: { uid: string }) {
 /* ---------------------------------------------------------------------- */
 /* Concept C — Minimal Portal                                             */
 /* ---------------------------------------------------------------------- */
-function PortalSVG({ uid }: { uid: string }) {
+function PortalSVG({ uid }: { string }) {
   const grad = `gl-portal-${uid}`;
   return (
     <svg viewBox="0 0 24 24" className="block overflow-visible w-full h-full">
@@ -214,30 +240,12 @@ function PortalSVG({ uid }: { uid: string }) {
         <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
       </g>
 
-      <circle
-        cx="12" cy="12" r="9"
-        fill="none" stroke={`url(#${grad})`} strokeWidth="3" strokeLinecap="round" strokeDasharray="42.4 14.1"
-        style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * .6) linear infinite" }}
-      />
+      <g className="gl-portal-ring" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * .6) linear infinite" }}>
+        <circle cx="12" cy="12" r="9" fill="none" stroke={`url(#${grad})`} strokeWidth="2.5" strokeLinecap="round" strokeDasharray="38 18" />
+        <circle cx="12" cy="12" r="5.5" fill="none" stroke={`url(#${grad})`} strokeWidth="1" strokeDasharray="10 10" opacity="0.6" />
+      </g>
     </svg>
   );
 }
 
 export default GenLayerSpinner;
-
-/**
- * Global keyframes — add once to your app's root stylesheet (e.g. globals.css).
- * Tailwind's @layer utilities is a good home for these.
- *
- * @keyframes gl-cw    { to { transform: rotate(360deg); } }
- * @keyframes gl-ccw   { to { transform: rotate(-360deg); } }
- * @keyframes gl-dash  { to { stroke-dashoffset: -198; } }
- * @keyframes gl-pulse {
- *   0%, 100% { opacity: .5;  transform: scale(.82); }
- *   50%      { opacity: 1;   transform: scale(1.18); }
- * }
- * @keyframes gl-morph {
- *   0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
- *   50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
- * }
- */
