@@ -1,0 +1,170 @@
+/*!
+ * GenLayer Spinners — pure CSS, zero dependencies.
+ * Drop this file in and use the markup blocks below. All three concepts
+ * share one token surface, so a single override changes every spinner
+ * on the page:
+ *
+ *   :root {
+ *     --gl-a: #7A40FF;        // gradient start
+ *     --gl-b: #00F5D4;        // gradient end
+ *     --gl-duration: 1.6s;    // base cycle length, 0.5s–3s recommended
+ *     --gl-track: rgba(255,255,255,.08); // idle ring color, set per theme
+ *   }
+ *
+ * -----------------------------------------------------------------------
+ * USAGE — Concept A, "Consensus Orbit" (hero / splash sizes, 48px+)
+ * -----------------------------------------------------------------------
+ *   <span class="gl-spinner gl-spinner--orbit gl-spinner--lg" role="status" aria-label="Loading">
+ *     <svg viewBox="0 0 100 100">
+ *       <circle class="gl-track" cx="50" cy="50" r="42"/>
+ *       <circle class="gl-track" cx="50" cy="50" r="29"/>
+ *       <circle class="gl-orbit-outer" cx="50" cy="50" r="42"/>
+ *       <circle class="gl-orbit-inner" cx="50" cy="50" r="29"/>
+ *       <circle class="gl-orbit-core"  cx="50" cy="50" r="6"/>
+ *     </svg>
+ *   </span>
+ *
+ * -----------------------------------------------------------------------
+ * USAGE — Concept B, "Neural Loop" (cards / modals, 32–64px)
+ * -----------------------------------------------------------------------
+ *   <span class="gl-spinner gl-spinner--neural gl-spinner--md" role="status" aria-label="Loading">
+ *     <svg viewBox="0 0 100 100">
+ *       <path class="gl-track" d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z"/>
+ *       <path class="gl-neural-path" d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"/>
+ *       <circle class="gl-neural-node n1" cx="50" cy="18" r="4"/>
+ *       <circle class="gl-neural-node n2" cx="77.71" cy="66" r="4"/>
+ *       <circle class="gl-neural-node n3" cx="22.29" cy="66" r="4"/>
+ *     </svg>
+ *   </span>
+ *
+ * -----------------------------------------------------------------------
+ * USAGE — Concept C, "Minimal Portal" (buttons / badges, 16–24px)
+ * -----------------------------------------------------------------------
+ *   <span class="gl-spinner gl-spinner--portal gl-spinner--sm" role="status" aria-label="Loading">
+ *     <svg viewBox="0 0 24 24">
+ *       <circle class="gl-portal-ring" cx="12" cy="12" r="9"/>
+ *     </svg>
+ *   </span>
+ */
+
+.gl-spinner {
+  --gl-a: #7A40FF;
+  --gl-b: #00F5D4;
+  --gl-duration: 1.6s;
+  --gl-track: rgba(255, 255, 255, .08);
+  display: inline-flex;
+  line-height: 0;
+}
+
+.gl-spinner svg { display: block; overflow: visible; }
+
+/* size scale — override with a literal width/height for arbitrary sizes */
+.gl-spinner--16, .gl-spinner--sm { width: 16px; height: 16px; }
+.gl-spinner--24 { width: 24px; height: 24px; }
+.gl-spinner--32, .gl-spinner--md { width: 32px; height: 32px; }
+.gl-spinner--48 { width: 48px; height: 48px; }
+.gl-spinner--64, .gl-spinner--lg { width: 64px; height: 64px; }
+.gl-spinner--96 { width: 96px; height: 96px; }
+
+/* shared gradient stroke, applied via SVG fill through currentColor-style vars */
+.gl-spinner .gl-track { fill: none; stroke: var(--gl-track); }
+.gl-spinner--orbit circle.gl-track:nth-of-type(1),
+.gl-spinner--orbit circle.gl-track:nth-of-type(2) { stroke-width: 6; }
+
+/* ---------- Concept A: Consensus Orbit ---------- */
+.gl-spinner--orbit .gl-orbit-outer,
+.gl-spinner--orbit .gl-orbit-inner,
+.gl-spinner--orbit .gl-orbit-core {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.gl-spinner--orbit .gl-orbit-outer {
+  fill: none;
+  stroke: var(--gl-a);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 198 66;
+  animation: gl-cw var(--gl-duration) linear infinite;
+}
+.gl-spinner--orbit .gl-orbit-inner {
+  fill: none;
+  stroke: var(--gl-b);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 109 73;
+  animation: gl-ccw calc(var(--gl-duration) * 1.4) linear infinite;
+}
+.gl-spinner--orbit .gl-orbit-core {
+  fill: var(--gl-b);
+  animation: gl-pulse calc(var(--gl-duration) * .9) ease-in-out infinite;
+}
+
+/* ---------- Concept B: Neural Loop ---------- */
+.gl-spinner--neural .gl-neural-path,
+.gl-spinner--neural .gl-neural-node {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.gl-spinner--neural .gl-neural-path {
+  fill: none;
+  stroke: var(--gl-a);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 44 154;
+  animation:
+    gl-dash calc(var(--gl-duration) * 1.1) linear infinite,
+    gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite;
+}
+.gl-spinner--neural .gl-neural-node {
+  fill: var(--gl-a);
+  animation: gl-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite;
+}
+.gl-spinner--neural .gl-neural-node.n1 { fill: var(--gl-b); }
+.gl-spinner--neural .gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
+.gl-spinner--neural .gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
+
+/* ---------- Concept C: Minimal Portal ---------- */
+.gl-spinner--portal .gl-portal-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: none;
+  stroke: var(--gl-a);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 42.4 14.1;
+  animation: gl-cw calc(var(--gl-duration) * .6) linear infinite;
+}
+/* single-color context (e.g. inside a solid-fill button): drop the gradient */
+.gl-spinner--portal.gl-spinner--mono .gl-portal-ring { stroke: currentColor; }
+
+/* ---------- shared keyframes ---------- */
+@keyframes gl-cw    { to { transform: rotate(360deg); } }
+@keyframes gl-ccw   { to { transform: rotate(-360deg); } }
+@keyframes gl-dash  { to { stroke-dashoffset: -198; } }
+@keyframes gl-pulse {
+  0%, 100% { opacity: .5;  transform: scale(.82); }
+  50%      { opacity: 1;   transform: scale(1.18); }
+}
+@keyframes gl-morph {
+  0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
+  50%      { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
+}
+
+/* ---------- accessibility: keep motion, calm it down ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .gl-spinner--orbit .gl-orbit-outer,
+  .gl-spinner--orbit .gl-orbit-inner  { animation-duration: 2.8s; }
+  .gl-spinner--orbit .gl-orbit-core,
+  .gl-spinner--neural .gl-neural-node { animation: none; opacity: .85; }
+  .gl-spinner--neural .gl-neural-path { animation: gl-dash 3s linear infinite; }
+  .gl-spinner--portal .gl-portal-ring { animation-duration: 1.6s; }
+}
+
+/* ---------- light-theme track adjustment ----------
+ * If your page sets data-theme="light" on <html>, that wins outright.
+ * Otherwise the spinner falls back to the OS-level color-scheme. */
+[data-theme="light"] .gl-spinner { --gl-track: rgba(9, 10, 15, .10); }
+
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .gl-spinner { --gl-track: rgba(9, 10, 15, .10); }
+}
