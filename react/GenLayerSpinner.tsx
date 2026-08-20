@@ -1,36 +1,15 @@
 import React, { useId, useMemo } from "react";
 
-/**
- * <GenLayerSpinner />
- * Official GenLayer Portal loading spinner. Three concepts, one API.
- *
- *   <GenLayerSpinner variant="orbit"   size="lg" />   // hero / splash
- *   <GenLayerSpinner variant="neural"  size="md" />   // cards / modals
- *   <GenLayerSpinner variant="portal"  size="sm" />   // buttons / badges
- *
- * Sizes accept the preset tokens below or any pixel number.
- * Colors and speed default to brand tokens and can be overridden per-call
- * without touching the component — useful for status coloring
- * (e.g. an amber spinner while a transaction is pending vs. green on retry).
- */
-
 export type GenLayerSpinnerVariant = "orbit" | "neural" | "portal";
 export type GenLayerSpinnerSize = "sm" | "md" | "lg" | number;
 
 export interface GenLayerSpinnerProps {
-  /** Visual concept. Defaults to "orbit". */
   variant?: GenLayerSpinnerVariant;
-  /** Preset token (sm=16, md=32, lg=64) or an explicit pixel size. */
   size?: GenLayerSpinnerSize;
-  /** Gradient start color. Defaults to GenLayer Violet. */
   colorFrom?: string;
-  /** Gradient end color. Defaults to Cyan-Teal. */
   colorTo?: string;
-  /** Full rotation cycle length in seconds. 0.5–3 recommended. */
   speed?: number;
-  /** Accessible label announced by screen readers. */
   label?: string;
-  /** Additional classes applied to the wrapping <span>. */
   className?: string;
 }
 
@@ -49,8 +28,8 @@ const DEFAULT_SPEED: Record<GenLayerSpinnerVariant, number> = {
 export function GenLayerSpinner({
   variant = "orbit",
   size = "md",
-  colorFrom = "#7A40FF",
-  colorTo = "#00F5D4",
+  colorFrom = "#71461E",
+  colorTo = "#3C5872",
   speed,
   label = "Loading",
   className = "",
@@ -86,9 +65,6 @@ export function GenLayerSpinner({
   );
 }
 
-/* ---------------------------------------------------------------------- */
-/* Concept A — Consensus Orbit                                            */
-/* ---------------------------------------------------------------------- */
 function OrbitSVG({ uid }: { uid: string }) {
   const gradA = `gl-orbit-a-${uid}`;
   const gradB = `gl-orbit-b-${uid}`;
@@ -105,52 +81,36 @@ function OrbitSVG({ uid }: { uid: string }) {
           <stop offset="100%" stopColor="var(--gl-a)" />
         </linearGradient>
         <filter id={glow} x="-120%" y="-120%" width="340%" height="340%">
-          <feGaussianBlur stdDeviation="2.2" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+          <feGaussianBlur stdDeviation="2.5" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        <style>{`
-          @keyframes gl-wings-breathe-${uid} {
-            0%, 100% { opacity: 0.1; filter: drop-shadow(0 0 2px currentColor); }
-            50%      { opacity: 0.35; filter: drop-shadow(0 0 12px currentColor); }
-          }
-        `}</style>
       </defs>
 
-      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="6" />
-      <circle cx="50" cy="50" r="29" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="5" />
+      <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 4" opacity="0.15"/>
       
-      {/* The GenLayer Wings (Breathing Hologram) */}
-      <g transform="translate(30, 30) scale(0.4)" style={{ color: "var(--gl-a)", animation: `gl-wings-breathe-${uid} calc(var(--gl-duration) * 2) ease-in-out infinite` }}>
-        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="currentColor" />
+      <g className="gl-logo-spin" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * 1.5) linear infinite" }}>
+        <g transform="translate(32, 32) scale(0.36)">
+          <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill={`url(#${gradA})`} opacity="0.9" />
+          <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter={`url(#${glow})`} />
+        </g>
       </g>
 
-      <g className="gl-orbit-outer" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw var(--gl-duration) linear infinite" }}>
-        <circle cx="50" cy="50" r="42" fill="none" stroke={`url(#${gradA})`} strokeWidth="6" strokeLinecap="round" strokeDasharray="198 66" />
+      <g className="gl-orbit-outer" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-ccw var(--gl-duration) linear infinite" }}>
+        <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 8" opacity="0.3" />
+        <circle cx="50" cy="50" r="40" fill="none" stroke={`url(#${gradA})`} strokeWidth="4.5" strokeLinecap="round" strokeDasharray="140 80" />
       </g>
-      <g className="gl-orbit-inner" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-ccw calc(var(--gl-duration) * 1.4) linear infinite" }}>
-        <circle cx="50" cy="50" r="29" fill="none" stroke={`url(#${gradB})`} strokeWidth="5" strokeLinecap="round" strokeDasharray="109 73" />
-      </g>
-      
-      {/* Pulsing GenLayer Diamond Core */}
-      <g className="gl-orbit-core" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-pulse calc(var(--gl-duration) * .9) ease-in-out infinite" }}>
-        <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter={`url(#${glow})`} transform="translate(30, 30) scale(0.4)" />
+      <g className="gl-orbit-inner" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * 1.2) linear infinite" }}>
+        <circle cx="50" cy="50" r="28" fill="none" stroke={`url(#${gradB})`} strokeWidth="3" strokeLinecap="round" strokeDasharray="80 60" />
       </g>
     </svg>
   );
 }
 
-/* ---------------------------------------------------------------------- */
-/* Concept B — Neural Loop                                                */
-/* ---------------------------------------------------------------------- */
 function NeuralSVG({ uid }: { uid: string }) {
   const grad = `gl-neural-${uid}`;
   const glow = `gl-neural-glow-${uid}`;
   const nodeStyle = (delay: number): React.CSSProperties => ({
-    transformBox: "fill-box",
-    transformOrigin: "center",
+    transformBox: "fill-box", transformOrigin: "center",
     animation: "gl-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite",
     animationDelay: `calc(var(--gl-duration) * ${delay})`,
   });
@@ -163,50 +123,39 @@ function NeuralSVG({ uid }: { uid: string }) {
           <stop offset="100%" stopColor="var(--gl-a)" />
         </linearGradient>
         <filter id={glow} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="1.6" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
         <style>{`
-          @keyframes gl-logo-pulse-${uid} {
-            0%, 100% { opacity: 0.15; filter: drop-shadow(0 0 2px currentColor); }
-            50%      { opacity: 0.45; filter: drop-shadow(0 0 8px currentColor); }
+          @keyframes gl-pulse-logo-${uid} {
+            0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px var(--gl-a)); }
+            100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 12px var(--gl-b)); }
           }
         `}</style>
       </defs>
 
-      {/* GenLayer Holographic Anchor */}
-      <g transform="translate(30, 30) scale(0.4)" style={{ color: "var(--gl-b)", animation: `gl-logo-pulse-${uid} calc(var(--gl-duration) * 2.2) ease-in-out infinite` }}>
-        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+      <g className="gl-logo-pulse" style={{ transformBox: "fill-box", transformOrigin: "center", animation: `gl-pulse-logo-${uid} calc(var(--gl-duration) * 1.1) ease-in-out infinite alternate` }}>
+        <g transform="translate(28, 28) scale(0.44)">
+          <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="var(--gl-a)" opacity="0.85" />
+          <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" filter={`url(#${glow})`} />
+        </g>
       </g>
 
+      <path d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z" fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="4" opacity="0.5"/>
       <path
-        d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z"
-        fill="none" stroke="var(--gl-track, rgba(255,255,255,.08))" strokeWidth="3"
-      />
-      <path
+        className="gl-neural-path"
         d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"
-        fill="none" stroke={`url(#${grad})`} strokeWidth="3.5" strokeLinecap="round" strokeDasharray="44 154"
-        style={{
-          transformBox: "fill-box",
-          transformOrigin: "center",
-          animation:
-            "gl-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite",
-        }}
+        fill="none" stroke={`url(#${grad})`} strokeWidth="5" strokeLinecap="round" strokeDasharray="60 120"
+        style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite" }}
       />
       
-      <circle cx="50" cy="18" r="4" fill="var(--gl-b)" filter={`url(#${glow})`} style={nodeStyle(0)} />
-      <circle cx="77.71" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.37)} />
-      <circle cx="22.29" cy="66" r="4" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.74)} />
+      <circle className="gl-neural-node n1" cx="50" cy="18" r="5" fill="var(--gl-b)" filter={`url(#${glow})`} style={nodeStyle(0)} />
+      <circle className="gl-neural-node n2" cx="77.71" cy="66" r="5" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.37)} />
+      <circle className="gl-neural-node n3" cx="22.29" cy="66" r="5" fill="var(--gl-a)" filter={`url(#${glow})`} style={nodeStyle(-0.74)} />
     </svg>
   );
 }
 
-/* ---------------------------------------------------------------------- */
-/* Concept C — Minimal Portal                                             */
-/* ---------------------------------------------------------------------- */
 function PortalSVG({ uid }: { uid: string }) {
   const grad = `gl-portal-${uid}`;
   return (
@@ -216,21 +165,18 @@ function PortalSVG({ uid }: { uid: string }) {
           <stop offset="0%" stopColor="var(--gl-a)" />
           <stop offset="100%" stopColor="var(--gl-b)" />
         </linearGradient>
-        <style>{`
-          @keyframes gl-portal-breathe-${uid} { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.45; } }
-        `}</style>
       </defs>
 
-      {/* Micro GenLayer Anchor (Subtly Breathing) */}
-      <g transform="translate(6, 6) scale(0.12)" style={{ color: "var(--gl-a)", animation: `gl-portal-breathe-${uid} calc(var(--gl-duration) * 1.2) ease-in-out infinite` }}>
-        <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="currentColor" />
+      <g className="gl-logo-spin" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * 1.2) linear infinite" }}>
+        <g transform="translate(6.5, 6.5) scale(0.11)">
+          <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-a)" opacity="0.9" />
+        </g>
       </g>
 
-      <circle
-        cx="12" cy="12" r="9"
-        fill="none" stroke={`url(#${grad})`} strokeWidth="3" strokeLinecap="round" strokeDasharray="42.4 14.1"
-        style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-cw calc(var(--gl-duration) * .6) linear infinite" }}
-      />
+      <g className="gl-portal-ring" style={{ transformBox: "fill-box", transformOrigin: "center", animation: "gl-ccw calc(var(--gl-duration) * .8) linear infinite" }}>
+        <circle cx="12" cy="12" r="9" fill="none" stroke={`url(#${grad})`} strokeWidth="2.5" strokeLinecap="round" strokeDasharray="38 18" />
+        <circle cx="12" cy="12" r="6" fill="none" stroke={`url(#${grad})`} strokeWidth="1" strokeDasharray="10 10" opacity="0.6" />
+      </g>
     </svg>
   );
 }
