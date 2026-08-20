@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GenLayer Official Spinners | Interactive Web3 Portal</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS (CDN for zero-setup execution) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,74 +18,70 @@
                         display: ['Space Grotesk', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
-                    colors: {
-                        gl: {
-                            purple: '#7A40FF',
-                            teal: '#00F5D4',
-                            dark: '#090A0F',
-                            surface: '#12131A',
-                            border: '#1c1d2a'
-                        }
-                    }
+                    colors: { gl: { purple: '#7A40FF', teal: '#00F5D4', dark: '#090A0F', border: '#1c1d2a' } }
                 }
             }
         }
     </script>
     <style>
         /* =========================================
-           GenLayer Spinner Core Engine
+           Claude's Core Engine & Animations
            ========================================= */
-        :root {
-            --gl-a: #7A40FF;
-            --gl-b: #00F5D4;
-            --gl-duration: 1.6s;
-        }
-
+        :root { --gl-a: #7A40FF; --gl-b: #00F5D4; --gl-duration: 1.6s; }
+        
         .bg-cyber-grid {
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(122, 64, 255, 0.08), transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(0, 245, 212, 0.08), transparent 25%);
         }
-
-        /* --- Animations --- */
-        @keyframes spin-cw { to { transform: rotate(360deg); } }
-        @keyframes spin-ccw { to { transform: rotate(-360deg); } }
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.6; transform: scale(0.95); filter: drop-shadow(0 0 4px var(--gl-b)); }
-            50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 16px var(--gl-b)); }
-        }
-        @keyframes path-flow { to { stroke-dashoffset: -100; } }
+        .glass-panel { background: rgba(18, 19, 26, 0.7); backdrop-filter: blur(16px); border: 1px solid var(--gl-border); }
+        .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
         @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Concept 1: Delta Vortex (Hero) --- */
-        .vortex-outer { transform-origin: center; animation: spin-cw 2.4s linear infinite; }
-        .vortex-inner { transform-origin: center; animation: spin-ccw 3s linear infinite; }
-        .vortex-core { transform-origin: center; animation: pulse-glow 1.5s ease-in-out infinite; }
+        /* Orbit Logic */
+        .gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core { transform-box: fill-box; transform-origin: center; }
+        .gl-orbit-outer { animation: gl-orbit-cw var(--gl-duration) linear infinite; }
+        .gl-orbit-inner { animation: gl-orbit-ccw calc(var(--gl-duration) * 1.4) linear infinite; }
+        .gl-orbit-core { animation: gl-orbit-pulse calc(var(--gl-duration) * 0.9) ease-in-out infinite; }
+        @keyframes gl-orbit-cw { to { transform: rotate(360deg); } }
+        @keyframes gl-orbit-ccw { to { transform: rotate(-360deg); } }
+        @keyframes gl-orbit-pulse { 0%, 100% { opacity: .55; transform: scale(.82); } 50% { opacity: 1; transform: scale(1.18); } }
 
-        /* --- Concept 2: Consensus Apex (Cards) --- */
-        .apex-flow-l { stroke-dasharray: 40 60; animation: path-flow 2s linear infinite; }
-        .apex-flow-r { stroke-dasharray: 40 60; animation: path-flow 2s linear infinite reverse; }
+        /* Neural Logic */
+        .gl-neural-path, .gl-neural-node { transform-box: fill-box; transform-origin: center; }
+        .gl-neural-path { animation: gl-neural-dash calc(var(--gl-duration) * 1.1) linear infinite, gl-neural-morph calc(var(--gl-duration) * 2.2) ease-in-out infinite; }
+        @keyframes gl-neural-dash { to { stroke-dashoffset: -198; } }
+        @keyframes gl-neural-morph {
+            0%, 100% { d: path("M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z"); }
+            50% { d: path("M50,18 A46,46 0 0,1 77.71,66 A46,46 0 0,1 22.29,66 A46,46 0 0,1 50,18 Z"); }
+        }
+        .gl-neural-node { animation: gl-neural-pulse calc(var(--gl-duration) * 1.1) ease-in-out infinite; }
+        .gl-neural-node.n2 { animation-delay: calc(var(--gl-duration) * -0.37); }
+        .gl-neural-node.n3 { animation-delay: calc(var(--gl-duration) * -0.74); }
+        @keyframes gl-neural-pulse { 0%, 100% { opacity: .45; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.25); } }
+
+        /* Portal Logic */
+        .gl-portal-ring { transform-box: fill-box; transform-origin: center; animation: gl-portal-spin calc(var(--gl-duration) * 0.6) linear infinite; }
+        @keyframes gl-portal-spin { to { transform: rotate(360deg); } }
         
-        /* --- Concept 3: Micro Portal (Buttons) --- */
-        .portal-ring { transform-origin: center; animation: spin-cw 1.2s linear infinite; }
-
-        .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
-        .glass-panel { background: rgba(18, 19, 26, 0.7); backdrop-filter: blur(16px); border: 1px solid var(--gl-border); }
+        /* Custom Scrollbar for Pre blocks */
+        pre::-webkit-scrollbar { height: 6px; }
+        pre::-webkit-scrollbar-track { background: transparent; }
+        pre::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
     </style>
 </head>
 <body class="bg-gl-dark text-slate-200 font-sans min-h-screen bg-cyber-grid selection:bg-gl-purple selection:text-white pb-20">
 
-    <!-- Navbar -->
+    <!-- Header -->
     <header class="border-b border-gl-border/60 bg-gl-dark/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Official Geometry Logo -->
             <div class="flex items-center gap-3">
                 <svg viewBox="0 0 100 100" class="w-9 h-9 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                     <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" fill="currentColor" />
                     <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="currentColor" />
                     <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="currentColor" />
                 </svg>
-                <div class="font-display font-bold text-xl tracking-tight">GenLayer <span class="text-slate-500 font-medium">Spinner Design Showcase</span></div>
+                <div class="font-display font-bold text-xl tracking-tight">GenLayer <span class="text-slate-500 font-medium">Portal Simulator</span></div>
             </div>
         </div>
     </header>
@@ -95,45 +89,58 @@
     <main class="max-w-7xl mx-auto px-6 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         <!-- LEFT COLUMN: Live Action Simulators -->
-        <div class="lg:col-span-7 space-y-8">
+        <div class="lg:col-span-6 xl:col-span-7 space-y-8">
             <div class="mb-10">
-                <h1 class="font-display text-4xl font-bold text-white mb-3">Spinner Integration Sandbox</h1>
-                <p class="text-slate-400 leading-relaxed">Experience the custom GenLayer spinner suite inside realistic Web3 scenarios. Built using the exact geometric constraints of the official GenLayer Delta logo.</p>
+                <h1 class="font-display text-3xl md:text-4xl font-bold text-white mb-3">Spinner Integration Sandbox</h1>
+                <p class="text-slate-400 leading-relaxed text-sm md:text-base">Experience the community-designed spinner suite inside realistic Web3 scenarios. Powered by modular CSS and integrated strictly with the official GenLayer Delta logo.</p>
             </div>
 
-            <!-- Scenario 1: Deploy Contract (Hero Splash) -->
+            <!-- Scenario 1: Deploy Contract -->
             <div class="glass-panel rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-gl-purple/10 blur-[80px] -z-10 group-hover:bg-gl-purple/20 transition-all duration-700"></div>
                 <div class="flex justify-between items-start mb-8">
                     <div>
                         <div class="text-xs font-mono text-gl-teal uppercase tracking-widest mb-1">Scenario 01</div>
                         <h3 class="font-display text-xl text-white font-semibold">Intelligent Contract Deployment</h3>
-                        <p class="text-sm text-slate-400 mt-1">Full-screen or splash card loader (Concept: Delta Vortex)</p>
+                        <p class="text-sm text-slate-400 mt-1">Full-screen or splash card loader (The Consensus Orbit)</p>
                     </div>
                 </div>
                 
                 <div id="deployStage" class="bg-black/40 border border-white/5 rounded-xl h-64 flex flex-col items-center justify-center relative">
                     <button id="deployBtn" onclick="runDeployment()" class="bg-gradient-to-r from-gl-purple to-gl-teal text-black font-semibold px-8 py-3 rounded-lg hover:shadow-[0_0_20px_rgba(122,64,255,0.4)] transition-all transform hover:scale-105">
-                        Test Deployment Loader
+                        Simulate Deployment
                     </button>
                     
-                    <!-- Concept 1: Delta Vortex SVG -->
                     <div id="deployLoader" class="hidden flex-col items-center animate-fade-in">
-                        <svg viewBox="0 0 140 140" class="w-24 h-24 mb-4">
+                        <!-- Concept A: Consensus Orbit -->
+                        <svg viewBox="0 0 100 100" class="w-24 h-24 mb-4 gl-orbit">
                             <defs>
-                                <linearGradient id="gradV" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="gl-oa" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#7A40FF" />
                                     <stop offset="100%" stop-color="#00F5D4" />
                                 </linearGradient>
+                                <linearGradient id="gl-ob" x1="100%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#00F5D4" />
+                                    <stop offset="100%" stop-color="#7A40FF" />
+                                </linearGradient>
+                                <filter id="gl-og" x="-120%" y="-120%" width="340%" height="340%">
+                                    <feGaussianBlur stdDeviation="2.2" result="blur" />
+                                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                                </filter>
                             </defs>
-                            <!-- Orbital Rings -->
-                            <circle cx="70" cy="70" r="62" fill="none" stroke="url(#gradV)" stroke-width="2" stroke-dasharray="120 180" class="vortex-outer opacity-70" />
-                            <circle cx="70" cy="70" r="54" fill="none" stroke="url(#gradV)" stroke-width="2" stroke-dasharray="100 100" class="vortex-inner opacity-50" />
-                            <!-- Exact GenLayer Logo Centered -->
-                            <g transform="translate(20, 20)">
-                                <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" fill="currentColor" class="text-white/20" />
-                                <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="currentColor" class="text-white/20" />
-                                <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="#00F5D4" class="vortex-core" />
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6" />
+                            <circle cx="50" cy="50" r="29" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5" />
+                            
+                            <g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.15">
+                                <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
+                                <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
+                            </g>
+                            
+                            <g class="gl-orbit-outer"><circle cx="50" cy="50" r="42" fill="none" stroke="url(#gl-oa)" stroke-width="6" stroke-linecap="round" stroke-dasharray="198 66"/></g>
+                            <g class="gl-orbit-inner"><circle cx="50" cy="50" r="29" fill="none" stroke="url(#gl-ob)" stroke-width="5" stroke-linecap="round" stroke-dasharray="109 73"/></g>
+                            
+                            <g class="gl-orbit-core">
+                                <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="#00F5D4" filter="url(#gl-og)" transform="translate(30, 30) scale(0.4)" />
                             </g>
                         </svg>
                         <span class="font-mono text-sm text-gl-teal animate-pulse">Reaching Validator Consensus...</span>
@@ -149,169 +156,220 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Scenario 2: AI Consensus (Card) -->
+                <!-- Scenario 2: Card Loader -->
                 <div class="glass-panel rounded-2xl p-6 relative group overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-gl-teal/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     <div class="text-xs font-mono text-gl-purple uppercase tracking-widest mb-1">Scenario 02</div>
-                    <h3 class="font-display text-lg text-white font-semibold mb-6">AI Adjudication Exec</h3>
+                    <h3 class="font-display text-lg text-white font-semibold mb-6">AI Adjudication</h3>
                     
                     <div class="bg-black/40 border border-white/5 rounded-xl h-40 flex items-center justify-center">
-                        <!-- Concept 2: Consensus Apex SVG -->
-                        <svg viewBox="0 0 100 100" class="w-16 h-16 drop-shadow-[0_0_12px_rgba(122,64,255,0.3)]">
+                        <!-- Concept B: Neural Loop -->
+                        <svg viewBox="0 0 100 100" class="w-16 h-16 drop-shadow-[0_0_12px_rgba(122,64,255,0.3)] gl-neural">
                             <defs>
-                                <linearGradient id="gradFlow" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stop-color="#00F5D4" />
+                                <linearGradient id="gl-ng" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#7A40FF" />
+                                    <stop offset="50%" stop-color="#00F5D4" />
                                     <stop offset="100%" stop-color="#7A40FF" />
                                 </linearGradient>
+                                <filter id="gl-nglow" x="-80%" y="-80%" width="260%" height="260%">
+                                    <feGaussianBlur stdDeviation="1.6" result="blur" />
+                                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                                </filter>
                             </defs>
-                            <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" fill="none" stroke="url(#gradFlow)" stroke-width="4" stroke-linejoin="round" pathLength="100" class="apex-flow-l" />
-                            <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" fill="none" stroke="url(#gradFlow)" stroke-width="4" stroke-linejoin="round" pathLength="100" class="apex-flow-r" />
-                            <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="#fff" class="vortex-core" />
+                            <g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.12">
+                                <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
+                                <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
+                                <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
+                            </g>
+                            <path d="M50,18 A40,40 0 0,1 77.71,66 A40,40 0 0,1 22.29,66 A40,40 0 0,1 50,18 Z" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="3"/>
+                            <path class="gl-neural-path" d="M50,18 A34,34 0 0,1 77.71,66 A34,34 0 0,1 22.29,66 A34,34 0 0,1 50,18 Z" fill="none" stroke="url(#gl-ng)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="44 154"/>
+                            <circle class="gl-neural-node n1" cx="50" cy="18" r="4" fill="#00F5D4" filter="url(#gl-nglow)"/>
+                            <circle class="gl-neural-node n2" cx="77.71" cy="66" r="4" fill="#7A40FF" filter="url(#gl-nglow)"/>
+                            <circle class="gl-neural-node n3" cx="22.29" cy="66" r="4" fill="#7A40FF" filter="url(#gl-nglow)"/>
                         </svg>
                     </div>
-                    <p class="text-xs text-center text-slate-400 mt-4">Concept: Consensus Apex (Modals)</p>
+                    <p class="text-xs text-center text-slate-400 mt-4">Concept: Neural Loop</p>
                 </div>
 
-                <!-- Scenario 3: Button CTA (Micro) -->
+                <!-- Scenario 3: Button CTA -->
                 <div class="glass-panel rounded-2xl p-6">
                     <div class="text-xs font-mono text-white/50 uppercase tracking-widest mb-1">Scenario 03</div>
                     <h3 class="font-display text-lg text-white font-semibold mb-6">Micro Action Buttons</h3>
                     
                     <div class="space-y-4">
                         <button disabled class="w-full bg-white/5 border border-white/10 text-slate-400 py-3 rounded-lg flex items-center justify-center gap-3 cursor-not-allowed">
-                            <!-- Concept 3: Micro Portal SVG (16px) -->
-                            <svg viewBox="0 0 40 40" class="w-4 h-4">
+                            <!-- Concept C: Minimal Portal (16px) -->
+                            <svg viewBox="0 0 24 24" class="w-4 h-4 gl-portal">
                                 <defs>
-                                    <linearGradient id="gradRing" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <linearGradient id="gl-pg" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#7A40FF" />
                                         <stop offset="100%" stop-color="#00F5D4" />
                                     </linearGradient>
                                 </defs>
-                                <!-- Scaled down Delta silhouette -->
-                                <g transform="scale(0.24) translate(34, 34)" fill="currentColor" opacity="0.3">
+                                <g transform="translate(6, 6) scale(0.12)" fill="currentColor" opacity="0.25">
                                     <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
                                     <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
                                     <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
                                 </g>
-                                <circle cx="20" cy="20" r="18" fill="none" stroke="url(#gradRing)" stroke-width="4" stroke-dasharray="80 30" stroke-linecap="round" class="portal-ring" />
+                                <circle class="gl-portal-ring" cx="12" cy="12" r="9" fill="none" stroke="url(#gl-pg)" stroke-width="3" stroke-linecap="round" stroke-dasharray="42.4 14.1" />
                             </svg>
                             Staking GEN...
                         </button>
                         
                         <button disabled class="w-full bg-gl-purple/20 border border-gl-purple/50 text-gl-purple py-3 rounded-lg flex items-center justify-center gap-3 cursor-not-allowed font-medium">
-                            <svg viewBox="0 0 40 40" class="w-5 h-5 text-gl-teal">
-                                <g transform="scale(0.24) translate(34, 34)" fill="currentColor" opacity="0.4">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 gl-portal text-gl-teal">
+                                <g transform="translate(6, 6) scale(0.12)" fill="currentColor" opacity="0.25">
                                     <path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" />
                                     <path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" />
                                     <path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" />
                                 </g>
-                                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="80 30" stroke-linecap="round" class="portal-ring" />
+                                <circle class="gl-portal-ring" cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="42.4 14.1" />
                             </svg>
                             Claiming Bounty
                         </button>
                     </div>
-                    <p class="text-xs text-center text-slate-400 mt-5">Concept: Micro Portal (16-20px)</p>
+                    <p class="text-xs text-center text-slate-400 mt-5">Concept: Minimal Portal</p>
                 </div>
             </div>
         </div>
 
         <!-- RIGHT COLUMN: Dev Export Suite -->
-        <div class="lg:col-span-5 h-full">
+        <div class="lg:col-span-6 xl:col-span-5 h-[800px] lg:h-auto">
             <div class="glass-panel rounded-2xl h-full flex flex-col border-t-4 border-t-gl-teal shadow-2xl">
-                <div class="p-6 border-b border-white/5 bg-black/20 flex items-center justify-between">
+                <div class="p-5 md:p-6 border-b border-white/5 bg-black/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 class="font-display text-xl text-white font-semibold">Dev Asset Suite</h2>
-                        <p class="text-xs text-slate-400 mt-1">Copy raw components for production</p>
+                        <p class="text-xs text-slate-400 mt-1">Official Claude outputs + Logo</p>
                     </div>
-                    <!-- Tabs -->
-                    <div class="flex gap-1 bg-white/5 p-1 rounded-lg">
-                        <button onclick="switchTab('react')" id="tab-react" class="px-3 py-1.5 text-xs font-mono rounded bg-white/10 text-white transition">React</button>
-                        <button onclick="switchTab('css')" id="tab-css" class="px-3 py-1.5 text-xs font-mono rounded text-slate-400 hover:text-white transition">CSS</button>
+                    <div class="flex gap-1 bg-white/5 p-1 rounded-lg self-start">
+                        <button onclick="switchTab('react')" id="tab-react" class="tab-btn px-3 py-1.5 text-xs font-mono rounded bg-white/10 text-white transition">React</button>
+                        <button onclick="switchTab('css')" id="tab-css" class="tab-btn px-3 py-1.5 text-xs font-mono rounded text-slate-400 hover:text-white transition">CSS</button>
+                        <button onclick="switchTab('svg')" id="tab-svg" class="tab-btn px-3 py-1.5 text-xs font-mono rounded text-slate-400 hover:text-white transition">SVG</button>
                     </div>
                 </div>
                 
                 <div class="p-6 flex-1 bg-[#0d0d12] overflow-y-auto">
-<pre id="code-react" class="text-xs font-mono text-slate-300 overflow-x-auto">
+<!-- REACT CODE -->
+<pre id="code-react" class="code-block text-xs font-mono text-slate-300">
 <span class="text-slate-500">/**
- * Official GenLayerSpinner Component
- * Requires Tailwind CSS + custom keyframes.
- * SVG paths strictly map to the GenLayer Delta.
+ * GenLayerSpinner.tsx
+ * Official GenLayer Portal loading spinner component.
+ * Uses exact geometric paths from the GenLayer logo.
  */</span>
-import React from 'react';
+import React, { useId, useMemo } from "react";
 
-export const GenLayerSpinner = ({ variant = 'vortex', size = 24 }) => {
-  
-  if (variant === 'micro') {
-    return (
-      &lt;svg viewBox="0 0 40 40" width={size} height={size}&gt;
-        &lt;defs&gt;
-          &lt;linearGradient id="gl-g" x1="0" y1="0" x2="1" y2="1"&gt;
-            &lt;stop offset="0%" stopColor="#7A40FF" /&gt;
-            &lt;stop offset="100%" stopColor="#00F5D4" /&gt;
-          &lt;/linearGradient&gt;
-        &lt;/defs&gt;
-        &lt;g transform="scale(0.24) translate(34, 34)" fill="currentColor" opacity="0.3"&gt;
-          &lt;path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" /&gt;
-          &lt;path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" /&gt;
-          &lt;path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" /&gt;
-        &lt;/g&gt;
-        &lt;circle cx="20" cy="20" r="18" fill="none" stroke="url(#gl-g)" 
-          strokeWidth="4" strokeDasharray="80 30" strokeLinecap="round" 
-          style={{ transformOrigin: 'center', animation: 'spin 1s linear infinite' }} 
-        /&gt;
-      &lt;/svg&gt;
-    );
-  }
-  
-  <span class="text-slate-500">// Other variants (Vortex, Apex) ...</span>
-  return null;
-};
+export function GenLayerSpinner({
+  variant = "orbit",
+  size = 64,
+  colorFrom = "#7A40FF",
+  colorTo = "#00F5D4",
+  speed = 1.6
+}) {
+  const uid = useId().replace(/:/g, "");
+  const style = useMemo(() => ({
+    "--gl-a": colorFrom,
+    "--gl-b": colorTo,
+    "--gl-duration": `${speed}s`,
+    width: size, height: size
+  }), [colorFrom, colorTo, speed, size]);
+
+  return (
+    &lt;span style={style} className="gl-spinner inline-flex leading-none"&gt;
+      {variant === "orbit" && &lt;OrbitSVG uid={uid} /&gt;}
+      {variant === "neural" && &lt;NeuralSVG uid={uid} /&gt;}
+      {variant === "portal" && &lt;PortalSVG uid={uid} /&gt;}
+    &lt;/span&gt;
+  );
+}
+
+function OrbitSVG({ uid }) {
+  return (
+    &lt;svg viewBox="0 0 100 100" className="block overflow-visible w-full h-full"&gt;
+      <span class="text-slate-500">{`/* ... (SVG defs and gradients) ... */`}</span>
+      &lt;g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.15"&gt;
+        &lt;path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" /&gt;
+        &lt;path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" /&gt;
+      &lt;/g&gt;
+      &lt;g className="gl-orbit-outer"&gt;
+        &lt;circle cx="50" cy="50" r="42" fill="none" stroke={`url(#gl-oa)`} strokeWidth="6" strokeLinecap="round" strokeDasharray="198 66"/&gt;
+      &lt;/g&gt;
+      &lt;g className="gl-orbit-inner"&gt;
+        &lt;circle cx="50" cy="50" r="29" fill="none" stroke={`url(#gl-ob)`} strokeWidth="5" strokeLinecap="round" strokeDasharray="109 73"/&gt;
+      &lt;/g&gt;
+      &lt;g className="gl-orbit-core"&gt;
+        &lt;path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" transform="translate(30, 30) scale(0.4)" /&gt;
+      &lt;/g&gt;
+    &lt;/svg&gt;
+  );
+}
 </pre>
-<pre id="code-css" class="text-xs font-mono text-slate-300 overflow-x-auto hidden">
-<span class="text-slate-500">/* Add to globals.css or tailwind base */</span>
-@keyframes spin-cw { 
-  to { transform: rotate(360deg); } 
-}
-@keyframes spin-ccw { 
-  to { transform: rotate(-360deg); } 
-}
-@keyframes pulse-glow {
-  0%, 100% { 
-    opacity: 0.6; 
-    transform: scale(0.95); 
-    filter: drop-shadow(0 0 4px #00F5D4); 
-  }
-  50% { 
-    opacity: 1; 
-    transform: scale(1.05); 
-    filter: drop-shadow(0 0 16px #00F5D4); 
-  }
-}
-@keyframes path-flow { 
-  to { stroke-dashoffset: -100; } 
+
+<!-- CSS CODE -->
+<pre id="code-css" class="code-block text-xs font-mono text-slate-300 hidden">
+<span class="text-slate-500">/* genlayer-spinners.css */</span>
+:root {
+  --gl-a: #7A40FF;
+  --gl-b: #00F5D4;
+  --gl-duration: 1.6s;
+  --gl-track: rgba(255, 255, 255, .08);
 }
 
-.gl-vortex-outer { 
-  transform-origin: center; 
-  animation: spin-cw 2.4s linear infinite; 
+.gl-spinner { display: inline-flex; line-height: 0; }
+.gl-spinner svg { display: block; overflow: visible; }
+
+.gl-orbit-outer, .gl-orbit-inner, .gl-orbit-core,
+.gl-neural-path, .gl-neural-node, .gl-portal-ring {
+  transform-box: fill-box; transform-origin: center;
 }
-.gl-apex-flow { 
-  stroke-dasharray: 40 60; 
-  animation: path-flow 2s linear infinite; 
+
+/* Orbit */
+.gl-orbit-outer { animation: gl-orbit-cw var(--gl-duration) linear infinite; }
+.gl-orbit-inner { animation: gl-orbit-ccw calc(var(--gl-duration) * 1.4) linear infinite; }
+.gl-orbit-core  { animation: gl-orbit-pulse calc(var(--gl-duration) * .9) ease-in-out infinite; }
+
+/* Keyframes */
+@keyframes gl-orbit-cw  { to { transform: rotate(360deg); } }
+@keyframes gl-orbit-ccw { to { transform: rotate(-360deg); } }
+@keyframes gl-orbit-pulse {
+  0%, 100% { opacity: .55; transform: scale(.82); }
+  50%      { opacity: 1;  transform: scale(1.18); }
 }
+</pre>
+
+<!-- SVG CODE -->
+<pre id="code-svg" class="code-block text-xs font-mono text-slate-300 hidden">
+<span class="text-slate-500">&lt;!-- Standalone Orbit SVG --&gt;</span>
+&lt;svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;!-- GenLayer Logo Geometry --&gt;
+  &lt;g transform="translate(30, 30) scale(0.4)" fill="currentColor" opacity="0.15"&gt;
+    &lt;path d="M 46,10 L 10,90 L 46,78 L 30,62 L 46,46 Z" /&gt;
+    &lt;path d="M 54,10 L 90,90 L 54,78 L 70,62 L 54,46 Z" /&gt;
+  &lt;/g&gt;
+  
+  &lt;!-- Orbital Rings --&gt;
+  &lt;g class="gl-orbit-outer"&gt;
+    &lt;circle cx="50" cy="50" r="42" fill="none" stroke="var(--gl-a)" stroke-width="6" stroke-dasharray="198 66"/&gt;
+  &lt;/g&gt;
+  &lt;g class="gl-orbit-inner"&gt;
+    &lt;circle cx="50" cy="50" r="29" fill="none" stroke="var(--gl-b)" stroke-width="5" stroke-dasharray="109 73"/&gt;
+  &lt;/g&gt;
+
+  &lt;!-- Pulsing Diamond Core --&gt;
+  &lt;g class="gl-orbit-core"&gt;
+    &lt;path d="M 50,50 L 62,62 L 50,74 L 38,62 Z" fill="var(--gl-b)" transform="translate(30, 30) scale(0.4)" /&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;
 </pre>
                 </div>
                 <div class="p-4 bg-white/5 border-t border-white/5">
                     <button onclick="copyCode()" id="copyBtn" class="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded text-sm font-mono text-white transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                        Copy to Clipboard
+                        Copy Source Code
                     </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Logic Script -->
     <script>
         // Simulator 1: Deploy Contract
         function runDeployment() {
@@ -329,7 +387,6 @@ export const GenLayerSpinner = ({ variant = 'vortex', size = 24 }) => {
                 success.classList.remove('hidden');
                 success.classList.add('flex');
                 
-                // Reset after 3s
                 setTimeout(() => {
                     success.classList.add('hidden');
                     success.classList.remove('flex');
@@ -341,16 +398,16 @@ export const GenLayerSpinner = ({ variant = 'vortex', size = 24 }) => {
         // Code Tabs
         let currentTab = 'react';
         function switchTab(tab) {
-            document.getElementById('code-react').classList.add('hidden');
-            document.getElementById('code-css').classList.add('hidden');
-            document.getElementById('tab-react').classList.remove('bg-white/10', 'text-white');
-            document.getElementById('tab-css').classList.remove('bg-white/10', 'text-white');
-            document.getElementById('tab-react').classList.add('text-slate-400');
-            document.getElementById('tab-css').classList.add('text-slate-400');
+            document.querySelectorAll('.code-block').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-white/10', 'text-white');
+                el.classList.add('text-slate-400');
+            });
             
             document.getElementById('code-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).classList.add('bg-white/10', 'text-white');
-            document.getElementById('tab-' + tab).classList.remove('text-slate-400');
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.remove('text-slate-400');
+            activeBtn.classList.add('bg-white/10', 'text-white');
             currentTab = tab;
         }
 
